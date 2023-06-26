@@ -49,6 +49,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>No.</th>
+                                                    <th>Profile</th>
                                                     <th>First Name</th>
                                                     <th>Middle Name</th>
                                                     <th>Last Name</th>
@@ -64,9 +65,13 @@
                                                     $result = $query->get_result();
                                                     if ($result->num_rows > 0) {
                                                         $cnt = 1;
-                                                        while ($user = $result->fetch_object()) { ?>
+                                                        while ($user = $result->fetch_object()) { 
+                                                            $imageUrl= dirname($_SERVER['PHP_SELF'])."/assets/img/profile/" . $user->profile_image; ?>
                                                         <tr>
                                                             <td><?php echo $cnt ?></td>
+                                                            <th>
+                                                                <img alt="Avatar" class="img-circle" src="<?php echo $imageUrl; ?>" width="30px">
+                                                            </th>
                                                             <td><?php echo $user->fname ?></td>
                                                             <td><?php echo $user->mname ?></td>
                                                             <td><?php echo $user->lname ?></td>

@@ -132,7 +132,7 @@ ob_start();
                         <tr>
                             <td><?php echo $cnt ?></td>
                             <td><?php echo $item->task ?></td>
-                            <td>1 Local System</td>
+                            <td><?php echo $item->accommodation ?></td>
                         </tr>
                         <?php
                         $cnt++;

@@ -1,7 +1,22 @@
 <?php if( ! defined( 'ACCESS' ) ) die( 'DIRECT ACCESS NOT ALLOWED' ); ?>
 
 <?= element( 'header' ); ?>
-
+<style>
+    .alert.alert-outline-warning {
+        border: 1px solid #ffc107 !important;
+        background-color: #ffdc72 !important;
+        color: #ffc107 !important;
+    }
+    .alert.alert-outline-warning h5 {
+        color: #000 !important;
+    }
+    .alert.alert-outline-warning .icon {
+        color: #000 !important;
+    }
+    .text-muted{
+        color: #000 !important;
+    }
+</style>
 <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
@@ -39,6 +54,11 @@
                                 <?= show_message(); ?>
                                 
                                 <div class="card-body">
+                                    <div class="alert alert-outline-warning alert-dismissible">
+                                        <h5><i class="icon fas fa-exclamation-triangle"></i> Note!</h5>
+                                        <div class="text-muted">Please check if you've completed your task within this month or within the range you've set to finish it before generating your <strong>Accomplishment Reports</strong>.</div>
+                                    </div>
+
                                     <form class="form-horizontal" action="<?= $reportPDF_link ?>" method="get" enctype="multipart/form-data" id="generateReport" target="_blank">  
 
                                         <div class="form-group">

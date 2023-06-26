@@ -43,7 +43,7 @@
                             <div class="small-box bg-warning">
                                 <div class="inner" id="taskNowCountContainer">
                                     <h3></h3>
-                                    <p>Task</p>
+                                    <p>Ongoing Task</p>
                                 </div>
                                 <div class="icon">
                                     <i class="fa fa-chart-bar"></i>
@@ -61,7 +61,7 @@
                                 <div class="icon">
                                     <i class="fa fa-check"></i>
                                 </div>
-                                <a href="./responses" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="<?= $gantt_chart_link ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
 
@@ -74,7 +74,7 @@
                                 <div class="icon">
                                     <i class="fa fa-times"></i>
                                 </div>
-                                <a href="./responses" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="<?= $gantt_chart_link ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                     </div>

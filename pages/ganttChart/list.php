@@ -116,7 +116,9 @@
                                         </button>
                                     </div>
                                 </div>
+
                                 <?= show_message(); ?>
+                                
                                 <div class="card-body">
                                     <table id="example1" class="table table-hover projects">
                                         <thead>
@@ -261,6 +263,13 @@
 
 <?= element( 'footer' ); ?>
 
+<script type="text/javascript">
+    setTimeout(function () {
+        $( "#alert" ).delay(2500).fadeOut(5000);
+    }, );
+</script>
+
+
 <script src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/assets/js/addGanttValidation.js"></script>
 
 <script>
@@ -288,25 +297,25 @@
 </script>
 
 <script>
-    var startDateInput = document.getElementById('start_date1');
-    var endDateInput = document.getElementById('end_date1');
-    var durationInput = document.getElementById('duration1');
+    var startDateInput1 = document.getElementById('start_date1');
+    var endDateInput1 = document.getElementById('end_date1');
+    var durationInput1 = document.getElementById('duration1');
 
     // Calculate duration when either start or end date changes
-    startDateInput.addEventListener('change', calculateDuration);
-    endDateInput.addEventListener('change', calculateDuration);
+    startDateInput1.addEventListener('change', calculateDuration);
+    endDateInput1.addEventListener('change', calculateDuration);
 
     function calculateDuration() {
-        var startDate = new Date(startDateInput.value);
-        var endDate = new Date(endDateInput.value);
+        var startDate = new Date(startDateInput1.value);
+        var endDate = new Date(endDateInput1.value);
 
         if (startDate && endDate && startDate <= endDate) {
             var durationInMilliseconds = endDate - startDate;
             var days = Math.ceil(durationInMilliseconds / (1000 * 60 * 60 * 24));
 
-            durationInput.value = days + ' days';
+            durationInput1.value = days + ' days';
         } else {
-            durationInput.value = '';
+            durationInput1.value = '';
         }
     }
 </script>

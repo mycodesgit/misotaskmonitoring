@@ -26,6 +26,15 @@
                     <div class="form-group">
                         <div class="form-row">
                             <div class="col-md-12">
+                                <label for="exampleInputName">No. of Accommodation:</label>
+                                <input type="text" id="accommodation" name="accommodation" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');" placeholder="Enter Accommodation" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-12">
                                 <label for="exampleInputName">Date Start:</label>
                                 <input type="date" id="start_date" name="start_date" class="form-control">
                             </div>

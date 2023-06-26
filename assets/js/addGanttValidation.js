@@ -5,6 +5,9 @@ $(function () {
             task: {
                 required: true
             },
+            accommodation: {
+                required: true
+            },
             start_date: {
                 required: true
             },
@@ -18,6 +21,9 @@ $(function () {
         messages: {
             task: {
                 required: "Please enter a your Task"
+            },
+            accommodation: {
+                required: "Please enter number of accommodation of task"
             },
             start_date: {
                 required: "Please select Date"
