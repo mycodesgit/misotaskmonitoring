@@ -2,6 +2,7 @@
 
 <?= element( 'headerForm' ); ?>
 
+<body class="hold-transition hold-transition login-page">
 <div id="particles-js"></div>
 <div class="box">
     <div class="card">
@@ -23,7 +24,7 @@
                         <img src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/assets/adminLTE-3/img/mislogoNoBG.png" width="60%">
                     </center>
                     <p>
-                        <a href="" class="btn btn-primary btn-flat btn-block">Monitoring</a>
+                        <a href="./viewMonitoring" class="btn btn-primary btn-flat btn-block">Monitoring</a>
                     </p>
                     <p>
                         <a href="./login" class="btn btn-primary btn-flat btn-block">Login</a>
@@ -34,5 +35,6 @@
     </div>
 </div>
 
+<?= element ('footerForm'); ?>
 <script src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/assets/particles/particles.js"></script>
 <script src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/assets/particles/app.js"></script>

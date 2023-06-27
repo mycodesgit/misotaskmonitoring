@@ -24,6 +24,13 @@
         </li>
 
         <li class="nav-item">
+            <a href="<?= $ticket_link ?>" class="nav-link <?php echo basename($_SERVER['REQUEST_URI']) == 'ticketing' ? 'active' : ''; ?>">
+                <i class="nav-icon fas fa-ticket-alt"></i>
+                <p>Ticketing</p>
+            </a>
+        </li>
+
+        <li class="nav-item">
             <a href="<?= $notes_link ?>" class="nav-link <?php echo basename($_SERVER['REQUEST_URI']) == 'nlist' ? 'active' : ''; ?>">
                 <i class="nav-icon fas fa-file"></i>
                 <p>Notes</p>

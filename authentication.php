@@ -52,7 +52,7 @@
 	$restricted_pages[ 'Staff' ][ 'default_page' ] = "home/dashboard";
 	
 	
-	$restricted_pages[ 'default' ]['access'] = [ "default", "ganttChart1", "login", "register" ];
+	$restricted_pages[ 'default' ]['access'] = [ "default", "viewMonitoring", "login", "register" ];
 	$restricted_pages[ 'default' ][ 'default_page' ] = "default"; 
 
 	has_access( true );
