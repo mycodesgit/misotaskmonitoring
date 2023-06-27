@@ -22,7 +22,7 @@
         <div class="form-row">
             <div class="col-md-12">
                 <label for="exampleInputName">Date Start:</label>
-                <input type="date" id="start_date1" name="start_date" value="<?php echo  $data->start_date; ?>" class="form-control">
+                <input type="date" id="start_date1" name="start_date" value="<?php echo  $data->start_date; ?>" class="form-control"  onchange="updateEndDateMin1()">
             </div>
         </div>
     </div>
@@ -31,7 +31,7 @@
         <div class="form-row">
             <div class="col-md-12">
                 <label for="exampleInputName">Date End:</label>
-                <input type="date" id="end_date1" name="end_date" value="<?php echo  $data->end_date; ?>" class="form-control">
+                <input type="date" id="end_date1" name="end_date" value="<?php echo  $data->end_date; ?>" class="form-control" onchange="updateEndDateMin1()">
             </div>
         </div>
     </div>
@@ -89,4 +89,33 @@
         //Initialize Select2 Elements
         $('.select2').select2()
     });
+</script>
+
+<script>
+  function updateEndDateMin1() {
+    var startDate = document.getElementById("start_date1").value;
+    document.getElementById("end_date1").min = startDate;
+    
+    calculateDuration1();
+  }
+  
+  function calculateDuration1() {
+    var startDate = document.getElementById("start_date1").value;
+    var endDate = document.getElementById("end_date1").value;
+
+    if (startDate && endDate) {
+      var start = new Date(startDate);
+      var end = new Date(endDate);
+      var duration = Math.ceil((end - start) / (1000 * 60 * 60 * 24)); // Calculate the difference in days
+
+      // Adjust the duration if the start and end dates are the same
+      if (duration === 0) {
+        duration = 1;
+      } else {
+        duration += 1;
+      }
+
+      document.getElementById("duration1").value = duration + " days";
+    }
+  }
 </script>

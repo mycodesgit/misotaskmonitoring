@@ -42,7 +42,7 @@ ob_start();
     }
     th, td {
         padding: 8px;
-        text-align: center;
+        text-align: left;
         border: 1px solid #ddd;
     }
     th {
@@ -81,6 +81,20 @@ ob_start();
         font-family: Arial, sans-serif;
         text-align: left;
     }
+    .footer-logo-container {
+        position: absolute;
+        left: 10;
+        bottom: -10;
+        width: 100%;
+        text-align: center;
+    }
+
+    .footer-logo {
+        max-width: 80%;
+        max-height: 20%;
+        display: inline-block;
+        vertical-align: bottom;
+    }
 </style>
 
 <div>
@@ -116,32 +130,34 @@ ob_start();
             </tr>
         </thead>
         <tbody>
-            <?php
+        <?php
             if (isset($_GET['generate'])) {
                 $start_date = $_GET['start_date'];
                 $end_date = $_GET['end_date']; 
 
-                $query = $DB->prepare("SELECT * FROM ganttchart WHERE status = 'Complete' AND start_date >= ? AND end_date <= ? AND user_id=".$_SESSION[AUTH_ID]);
-                $query->bind_param("ss", $start_date, $end_date);
+                $query = $DB->prepare("SELECT * FROM accomplishment WHERE created_at >= ? AND created_at <= ? AND user_id = ?");
+                $query->bind_param("sss", $start_date, $end_date, $_SESSION[AUTH_ID]);
                 $query->execute();
                 $result = $query->get_result();
 
                 if ($result->num_rows > 0) {
                     $cnt = 1;
-                    while ($item = $result->fetch_object()) { ?>
+                    while ($item = $result->fetch_object()) { 
+                        ?>
                         <tr>
                             <td><?php echo $cnt ?></td>
                             <td><?php echo $item->task ?></td>
-                            <td><?php echo $item->accommodation ?></td>
+                            <td><?php echo str_replace(',', '<br>', $item->no_accom); ?></td>
                         </tr>
                         <?php
                         $cnt++;
                     }
                 } else {
-                    //echo "<tr><td colspan='3'>No records found.</td></tr>";
+                    echo "<tr><td colspan='3'>No records found within the Date range you selected.</td></tr>";
                 }
             }
-            ?>
+        ?>
+
         </tbody>
     </table>
 </div>
@@ -162,6 +178,9 @@ ob_start();
     <p>MIS Officer</p>
 </div>
 
+<div class="footer-logo-container">
+    <img src="assets/img/logo/footerLogo.png" class="footer-logo">
+</div>
 
 
 

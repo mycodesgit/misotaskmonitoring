@@ -7,7 +7,7 @@ $stmtTotal->execute();
 $resultTotal = $stmtTotal->get_result()->fetch_array();
 
 // Prepare the statement to get the count for 'CurrentMonth'
-$stmtNow = $DB->prepare("SELECT COUNT(*) AS task_count FROM ganttchart WHERE MONTH(start_date) = MONTH(CURDATE()) AND MONTH(end_date) = MONTH(CURDATE())");
+$stmtNow = $DB->prepare("SELECT COUNT(*) AS task_count FROM ganttchart WHERE MONTH(start_date) = MONTH(CURDATE()) AND MONTH(end_date) = MONTH(CURDATE()) AND status = 'Working on it' ");
 $stmtNow->execute();
 $resultTask = $stmtNow->get_result()->fetch_array();
 

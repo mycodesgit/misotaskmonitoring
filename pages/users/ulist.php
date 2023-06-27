@@ -110,12 +110,10 @@
         </div>
         <!-- /.content-wrapper -->
 
-<?php include 'pages/script/user.php';?>
 
 <?= element( 'footer' ); ?>
 
-
-<script src="assets/js/addUserValidation.js"></script>
+<script src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/assets/js/addUserValidation.js"></script>
 
 <script>
     function deleteItem(id) {

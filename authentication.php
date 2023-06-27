@@ -28,9 +28,10 @@
 		['access'] = [ "home/dashboard", 
 						"profile/info", 
 						"ganttChart/list",
-						"ganttChart/edit_gantt",
+						"accomplishment/daily",
 						"notes/nlist",   
-						"users/ulist", 
+						"users/ulist",
+						"option/view", 
 						"users/edit-user",  
 						"reports/generate",
 						"reports/generate_pdf",
@@ -42,7 +43,7 @@
 		['access'] = [ "home/dashboard", 
 						"profile/info", 
 						"ganttChart/list",
-						"edit-ganttChart-task",
+						"accomplishment/daily",
 						"notes/nlist",  
 						"reports/generate",
 						"reports/generate_pdf",
@@ -51,7 +52,7 @@
 	$restricted_pages[ 'Staff' ][ 'default_page' ] = "home/dashboard";
 	
 	
-	$restricted_pages[ 'default' ]['access'] = [ "default", "submitresponse", "login", "register" ];
+	$restricted_pages[ 'default' ]['access'] = [ "default", "ganttChart1", "login", "register" ];
 	$restricted_pages[ 'default' ][ 'default_page' ] = "default"; 
 
 	has_access( true );

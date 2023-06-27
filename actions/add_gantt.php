@@ -3,7 +3,6 @@ if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
 
 if (isset($_POST['btn-submit'])) {
     $task = $_POST['task'];
-    $accommodation = $_POST['accommodation'];
     $start_date = $_POST['start_date'];
     $end_date = $_POST['end_date'];
     $duration = $_POST['duration'];
@@ -16,10 +15,10 @@ if (isset($_POST['btn-submit'])) {
         // Convert user_ids array to comma-separated string
         $user_id = implode(',', $user_ids);
 
-        $sql_insert = "INSERT INTO ganttchart (task, accommodation, start_date, end_date, duration, user_id, token) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $sql_insert = "INSERT INTO ganttchart (task, start_date, end_date, duration, user_id, token) VALUES (?, ?, ?, ?, ?, ?)";
 
         $stmt_insert = $DB->prepare($sql_insert);
-        $stmt_insert->bind_param("sssssss", $task, $accommodation, $start_date, $end_date, $duration, $user_id, $token);
+        $stmt_insert->bind_param("ssssss", $task, $start_date, $end_date, $duration, $user_id, $token);
 
         if ($stmt_insert->execute()) {
             set_message("Your Task Added Successfully. Complete it as soon as possible", 'success');

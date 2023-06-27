@@ -83,41 +83,6 @@
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
-<script>
-    window.onload = function () {
-        // Fetch response data from the server
-        fetch('../pages/script/graphAjax.php')
-            .then(response => response.json())
-            .then(data => {
-                var chartData = data.map(response => {
-                    return { y: response.count, label: response.pursue_study };
-                });
-
-                var chart = new CanvasJS.Chart("chartContainer", {
-                    animationEnabled: true,
-                    theme: "light2",
-                    title: {
-                        text: "Responses of Pursue Study and Not Pursue"
-                    },
-                    axisY: {
-                        title: "Count"
-                    },
-                    data: [{
-                        type: "column",
-                        showInLegend: true,
-                        legendMarkerColor: "grey",
-                        legendText: "Count",
-                        dataPoints: chartData
-                    }]
-                });
-
-                chart.render();
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    }
-</script>
 
 <script>
     function updatePursueStudyCount() {

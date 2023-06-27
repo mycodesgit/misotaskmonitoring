@@ -273,51 +273,32 @@
 <script src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/assets/js/addGanttValidation.js"></script>
 
 <script>
-    var startDateInput = document.getElementById('start_date');
-    var endDateInput = document.getElementById('end_date');
-    var durationInput = document.getElementById('duration');
+  function updateEndDateMin() {
+    var startDate = document.getElementById("start_date").value;
+    document.getElementById("end_date").min = startDate;
+    
+    calculateDuration();
+  }
+  
+  function calculateDuration() {
+    var startDate = document.getElementById("start_date").value;
+    var endDate = document.getElementById("end_date").value;
 
-    // Calculate duration when either start or end date changes
-    startDateInput.addEventListener('change', calculateDuration);
-    endDateInput.addEventListener('change', calculateDuration);
+    if (startDate && endDate) {
+      var start = new Date(startDate);
+      var end = new Date(endDate);
+      var duration = Math.ceil((end - start) / (1000 * 60 * 60 * 24)); // Calculate the difference in days
 
-    function calculateDuration() {
-        var startDate = new Date(startDateInput.value);
-        var endDate = new Date(endDateInput.value);
+      // Adjust the duration if the start and end dates are the same
+      if (duration === 0) {
+        duration = 1;
+      } else {
+        duration += 1;
+      }
 
-        if (startDate && endDate && startDate <= endDate) {
-            var durationInMilliseconds = endDate - startDate;
-            var days = Math.ceil(durationInMilliseconds / (1000 * 60 * 60 * 24));
-
-            durationInput.value = days + ' days';
-        } else {
-            durationInput.value = '';
-        }
+      document.getElementById("duration").value = duration + " days";
     }
-</script>
-
-<script>
-    var startDateInput1 = document.getElementById('start_date1');
-    var endDateInput1 = document.getElementById('end_date1');
-    var durationInput1 = document.getElementById('duration1');
-
-    // Calculate duration when either start or end date changes
-    startDateInput1.addEventListener('change', calculateDuration);
-    endDateInput1.addEventListener('change', calculateDuration);
-
-    function calculateDuration() {
-        var startDate = new Date(startDateInput1.value);
-        var endDate = new Date(endDateInput1.value);
-
-        if (startDate && endDate && startDate <= endDate) {
-            var durationInMilliseconds = endDate - startDate;
-            var days = Math.ceil(durationInMilliseconds / (1000 * 60 * 60 * 24));
-
-            durationInput1.value = days + ' days';
-        } else {
-            durationInput1.value = '';
-        }
-    }
+  }
 </script>
 
 <script>
@@ -353,7 +334,8 @@ function handleProgressBar(progressContainer, progressBar, progressHandle, progr
             method: "POST",
             data: { id: rowId, progress: progress },
             success: function (response) {
-               // console.log(response);
+            document.getElementById("task-data").value=response;
+            $('#modal-gantt-accomplish').modal('show');
             },
             error: function (xhr, status, error) {
                 //console.error(xhr.responseText);

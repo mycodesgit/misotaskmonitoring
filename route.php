@@ -19,6 +19,10 @@ $home_link = (strpos($current_url, $home_url) !== false) ? $current_url : '../ho
 $gantt_chart_url = '/ganttChart/list';
 $gantt_chart_link = (strpos($current_url, $gantt_chart_url) !== false) ? $current_url : '../ganttChart/list';
 
+/* Daily Task */
+$daily_task_url = '/accomplishment/daily';
+$daily_task_link = (strpos($current_url, $daily_task_url) !== false) ? $current_url : '../accomplishment/daily';
+
 /* Notes */
 $notes_url = '/notes/nlist';
 $notes_link = (strpos($current_url, $notes_url) !== false) ? $current_url : '../notes/nlist';
@@ -29,6 +33,10 @@ $reports_link = (strpos($current_url, $reports_url) !== false) ? $current_url : 
 
 $reportPDF_url = '/reports/generate_pdf';
 $reportPDF_link = (strpos($current_url, $reportPDF_url) !== false) ? $current_url : '../reports/generate_pdf';
+
+/* Users */
+$option_url = '/option/view';
+$option_link = (strpos($current_url, $option_url) !== false) ? $current_url : '../option/view';
 
 /* Users */
 $users_url = '/users/ulist';
