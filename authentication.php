@@ -29,6 +29,8 @@
 						"profile/info", 
 						"ganttChart/list",
 						"accomplishment/daily",
+						"accomplishment/edit",
+						"ticketing/viewContent",
 						"notes/nlist",   
 						"users/ulist",
 						"option/view", 
@@ -39,11 +41,25 @@
 					];
 	$restricted_pages[ 'Administrator' ][ 'default_page' ] = "home/dashboard";
 
+	$restricted_pages[ 'MIS Officer' ]
+		['access'] = [ "home/dashboard", 
+						"profile/info", 
+						"ganttChart/list",
+						"accomplishment/daily",
+						"ticketing/viewContent",
+						"notes/nlist",  
+						"reports/generate",
+						"reports/generate_pdf",
+						"error/404"
+					];
+	$restricted_pages[ 'MIS Officer' ][ 'default_page' ] = "home/dashboard";
+
 	$restricted_pages[ 'Staff' ]
 		['access'] = [ "home/dashboard", 
 						"profile/info", 
 						"ganttChart/list",
 						"accomplishment/daily",
+						"ticketing/viewContent",
 						"notes/nlist",  
 						"reports/generate",
 						"reports/generate_pdf",

@@ -226,6 +226,30 @@
                     <div class="form-group">
                         <div class="form-row">
                             <div class="col-md-12">
+                                <label>Task:</label>
+                                <select name="task" class="form-control select2" style="width: 100%;">
+                                    <option value="">--- Select ---</option>
+                                    <?php  
+                                        $query = $DB->prepare("SELECT * FROM option_task");
+                                        $query->execute();
+                                        $result = $query->get_result();
+                                        if ($result->num_rows > 0) {
+                                            $cnt = 1;
+                                            while ($item = $result->fetch_object()) { 
+                                                ?>
+                                                <option value="<?php echo $item->option_name ?>"><?php echo $item->option_name ?></option>
+                                                <?php
+                                            }
+                                        }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-12">
                                 <label for="exampleInputName">Task:</label>
                                 <input type="text" id="task-data" name="task" placeholder="Enter Task" class="form-control" readonly>
                             </div>
@@ -236,7 +260,7 @@
                         <div class="form-row">
                             <div class="col-md-12">
                                 <label for="exampleInputName">No. of Accommodation:</label>
-                                <input type="text" id="no_accom" name="no_accom" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');" placeholder="Enter Accommodation" class="form-control">
+                                <input type="text" id="no_accom" name="no_accom" placeholder="Enter Accommodation" class="form-control">
                             </div>
                         </div>
                     </div>

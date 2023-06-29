@@ -64,24 +64,24 @@ $(function () {
             $(element).addClass('is-valid');
         }
     });
-    $('#username').on('keyup', function () {
-        var username = $(this).val();
-        var $usernameStatus = $('#usernameStatus');
-        if (username !== '') {
-            $.ajax({
-                url: 'actions/check_username.php',
-                type: 'POST',
-                data: {username: username},
-                success: function(response) {
-                    if (response === 'available') {
-                        $usernameStatus.text('Username is available').removeClass('text-danger').addClass('text-success');
-                    } else {
-                        $usernameStatus.text('Username is taken').removeClass('text-success').addClass('text-danger');
-                    }
-                }
-            });
-        } else {
-            $usernameStatus.empty();
-        }
-    });
+    // $('#username').on('keyup', function () {
+    //     var username = $(this).val();
+    //     var $usernameStatus = $('#usernameStatus');
+    //     if (username !== '') {
+    //         $.ajax({
+    //             url: 'actions/check_username.php',
+    //             type: 'POST',
+    //             data: {username: username},
+    //             success: function(response) {
+    //                 if (response === 'available') {
+    //                     $usernameStatus.text('Username is available').removeClass('text-danger').addClass('text-success');
+    //                 } else {
+    //                     $usernameStatus.text('Username is taken').removeClass('text-success').addClass('text-danger');
+    //                 }
+    //             }
+    //         });
+    //     } else {
+    //         $usernameStatus.empty();
+    //     }
+    // });
 });

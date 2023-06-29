@@ -18,7 +18,7 @@
                             </ol>
                         </div>
                     </div>
-                </div><!-- /.container-fluid -->
+                </div>
             </section>
             
 
@@ -26,7 +26,6 @@
             <section class="content">
                 <!-- Default box -->
                 <div class="container-fluid">
-                <!-- Small boxes (Stat box) -->
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="card">
@@ -39,6 +38,8 @@
                                 <div class="card-body">
                                     <form method="post" id="addDailyTask">
                                         <input type="hidden" name="action" value="add_dailyTask"> 
+
+                                        <?= csrf_token(); ?>
 
                                         <div class="form-group">
                                             <div class="form-row">
@@ -68,7 +69,7 @@
                                             <div class="form-row">
                                                 <div class="col-md-12">
                                                     <label>No. of Accommodation:</label>
-                                                    <input type="text" id="no_accom" name="no_accom" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');" placeholder="Enter Accommodation" class="form-control">
+                                                    <textarea class="form-control" rows="4" id="no_accom" name="no_accom"></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -87,10 +88,9 @@
                                         </div>   
                                     </form>
                                 </div>
-                                <!-- /.card-body -->
                             </div>
-                            <!-- /.card -->
                         </div>
+
                         <div class="col-lg-8">
                             <div class="card">
                                 <div class="card-header">
@@ -122,7 +122,7 @@
                                                             <td><?php echo $item->task ?></td>
                                                             <td><?php echo $item->no_accom ?></td>
                                                             <td>
-                                                                <a href="#" data-toggle="modal" data-target="#modal-editDaily" onclick="editDaily(<?php echo $item->id; ?>)" class="btn btn-info btn-xs" title="Edit">
+                                                                <a href="<?= $daily_taskEdit_link ?>?token=<?php echo $item->token ?>" class="btn btn-info btn-xs" title="Edit">
                                                                     <i class="fas fa-info-circle"></i>
                                                                 </a>
                                                                 <a id="<?php echo $item->id ?>" onclick="deleteItem(this.id)" class="btn btn-danger btn-xs" title="Delete">
@@ -140,39 +140,20 @@
                                         </table>
                                     </div>
                                 </div>
-                                <!-- /.card-body -->
                             </div>
-                            <!-- /.card -->
                         </div>
                     </div>
                 </div>
             </section>
-            <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
+        
 <?php include 'pages/accomplishment/modal.php';?>
 
 <?= element( 'footer' ); ?>
 
 
 <script src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/assets/js/addDailyTaskValidation.js"></script>
-
-<script>
-    function editDaily(id) {
-        $.ajax({
-            url: "../pages/accomplishment/edit-daily.php",
-            method: "POST",
-            data: { id: id },
-                success: function (data) {
-                    $('#editDaily').html(data);
-                },
-                error: function (xhr, status, error) {
-                console.error(xhr.responseText);
-            }
-        });
-    }
-
-</script>
 
 <script>
     function deleteItem(id) {

@@ -51,8 +51,8 @@
                              
                             <div class="card-body">
                                 <form class="form-horizontal" method="post" id="updatePass">  
-                                    <input type="hidden" name="action" value="update_userpassword">
-
+                                    <input type="hidden" name="action" value="usersAction">
+                                    <?= csrf_token(); ?>
                                     <div class="form-group">
                                         <div class="form-row">
                                             <div class="col-md-12">
@@ -68,7 +68,7 @@
                                                 <button type="reset" class="btn btn-danger">
                                                     Clear
                                                 </button>
-                                                <button type="submit" name="btn-userpassupdate" class="btn btn-primary">
+                                                <button type="submit" name="btn-updatePassword" class="btn btn-primary">
                                                     <i class="fas fa-save"></i> Update
                                                 </button>
                                             </div>
@@ -91,7 +91,8 @@
                             
                             <div class="card-body">                               
                                 <form class="form-horizontal" method="post" enctype="multipart/form-data" id="editUser">  
-                                    <input type="hidden" name="action" value="update_user">
+                                    <input type="hidden" name="action" value="usersAction">
+                                    <?= csrf_token(); ?>
                                     
                                     <div class="form-group">
                                         <div class="form-row">

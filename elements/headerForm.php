@@ -113,6 +113,9 @@
 		.mailbox-name a{
 			color: #000 !important;
 		}
+		.text-sm{
+			font-size: 10pt !important;
+		}
 
 	</style>
 </head>

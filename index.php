@@ -11,11 +11,12 @@
 
 	require 'config.php';	
 	require 'init.php';
-	require 'functions.php';	
+	require 'functions.php';
+	require 'custom_functions.php';	
 	require 'authentication.php';	
 	require 'actions.php';			
 	require 'page.php';
-	require 'route.php';
+
 
 	if( $DB )
 	$DB->close();

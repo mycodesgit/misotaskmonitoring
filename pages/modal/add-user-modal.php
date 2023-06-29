@@ -12,12 +12,14 @@
             
             <div class="modal-body">
                <form class="form-horizontal" method="post" id="addUser" enctype="multipart/form-data">  
-                    <input type="hidden" name="action" value="user"> 
+                    <input type="hidden" name="action" value="usersAction"> 
+
+                    <?= csrf_token(); ?>
 
                     <div class="form-group">
                         <div class="form-row">
                             <div class="col-md-12">
-                                <label for="exampleInputName">First Name:</label>
+                                <label>First Name:</label>
                                 <input type="text" name="fname" oninput="this.value = this.value.toUpperCase()" placeholder="Enter First Name" class="form-control">
                             </div>
                         </div>
@@ -26,7 +28,7 @@
                     <div class="form-group">
                         <div class="form-row">
                             <div class="col-md-12">
-                                <label for="exampleInputName">Middle Name:</label>
+                                <label>Middle Name:</label>
                                 <input type="text" name="mname" oninput="this.value = this.value.toUpperCase()" placeholder="Enter Middle Name" class="form-control">
                             </div>
                         </div>
@@ -35,7 +37,7 @@
                     <div class="form-group">
                         <div class="form-row">
                             <div class="col-md-12">
-                                <label for="exampleInputName">Last Name:</label>
+                                <label>Last Name:</label>
                                 <input type="text" name="lname" oninput="this.value = this.value.toUpperCase()" placeholder="Enter Last Name" class="form-control">
                             </div>
                         </div>
@@ -44,9 +46,9 @@
                     <div class="form-group">
                         <div class="form-row">
                             <div class="col-md-12">
-                                <label for="exampleInputName">Username:</label>
+                                <label>Username:</label>
                                 <input type="text" id="username" name="username" placeholder="Enter Username" class="form-control">
-                                <span id="usernameStatus" style="font-size: 9pt"></span>
+                                <!-- <span id="usernameStatus" style="font-size: 9pt"></span> -->
                             </div>
                         </div>
                     </div>
@@ -54,7 +56,7 @@
                     <div class="form-group">
                         <div class="form-row">
                             <div class="col-md-12">
-                                <label for="exampleInputName">Password:</label>
+                                <label>Password:</label>
                                 <input type="password" name="password" placeholder="Enter Password" class="form-control">
                             </div>
                         </div>
@@ -63,7 +65,7 @@
                     <div class="form-group">
                         <div class="form-row">
                             <div class="col-md-12">
-                                <label for="exampleInputName">Usertype:</label>
+                                <label>Usertype:</label>
                                 <select name="usertype" class="form-control">
                                     <option value=""> --- Select ---</option>
                                     <option value="Administrator">Administrator</option>
@@ -77,7 +79,7 @@
                     <div class="form-group">
                         <div class="form-row">
                             <div class="col-md-12">
-                                <label for="exampleInputName">Gender:</label>
+                                <label>Gender:</label>
                                 <select name="emp_gender" class="form-control">
                                     <option value=""> --- Select ---</option>
                                     <option value="Male">Male</option>
@@ -90,7 +92,7 @@
                     <div class="form-group">
                         <div class="form-row">
                             <div class="col-md-12">
-                                <label for="exampleInputName">Profile:</label>
+                                <label>Profile:</label>
                                 <input type="file" name="profile_image" id="profile_image" class="form-control">
                             </div>
                         </div>

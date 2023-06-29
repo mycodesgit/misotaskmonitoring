@@ -1,5 +1,9 @@
-<?php 
+<?php if (!defined('ACCESS')) die('DIRECT ACCESS NOT ALLOWED');
+
     if( !empty( $_POST[ 'username' ] ) && !empty( $_POST[ 'password' ] ) ) {
+
+        validate_csrf();
+
         $username = $_POST[ 'username' ];
         $password = $_POST[ 'password' ];
 
@@ -32,3 +36,4 @@
     } else {        
         set_message( "You must specify the username and password." . $DB->error, "danger" );
     }
+?>

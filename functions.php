@@ -84,9 +84,6 @@ function get_page() {
 }
 
 
-
-
-
 function has_access($redirect = false) {
     global $restricted_pages;
     $page = get_page();
@@ -217,5 +214,7 @@ function log_errors( $message ) {
 	global $DB;
 	$DB->query( "INSERT INTO error_logs1 (message) VALUES('$message')" );
 }
+
 /* ADD YOUR CUSTOM FUNCTIONS IN custom_functions.php */
 require 'route.php';
+require 'app/functions/userFunction.php';

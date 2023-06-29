@@ -4,29 +4,26 @@
 
 <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
             <section class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1><i class="fas fa-bars"></i> Task Option</h1>
+                            <h1><i class="fas fa-ticket-alt"></i> Ticketing</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="<?= $home_link ?>">Dashboard</a></li>
-                                <li class="breadcrumb-item active">Daily Task</li>
+                                <li class="breadcrumb-item active">Ticketing</li>
                             </ol>
                         </div>
                     </div>
-                </div><!-- /.container-fluid -->
+                </div>
             </section>
             
 
             <!-- Main content -->
             <section class="content">
-                <!-- Default box -->
                 <div class="container-fluid">
-                <!-- Small boxes (Stat box) -->
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="card">
@@ -37,15 +34,38 @@
                                 </div>
                                 <?= show_message(); ?>
                                 <div class="card-body">
-                                    <form method="post" id="addOptionTask">
-                                        <input type="hidden" name="action" value="add_optiontask">
-                                        <?= csrf_token(); ?>
+                                    <form method="post" id="addDailyTask">
+                                        <input type="hidden" name="action" value="add_dailyTask"> 
 
                                         <div class="form-group">
                                             <div class="form-row">
                                                 <div class="col-md-12">
                                                     <label>Task:</label>
-                                                    <input type="text" id="option_name" name="option_name" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');" placeholder="Enter Task option" class="form-control" autofocus>
+                                                    <select name="task" class="form-control select2" style="width: 100%;">
+                                                        <option value="">--- Select ---</option>
+                                                        <?php  
+                                                            $query = $DB->prepare("SELECT * FROM option_task");
+                                                            $query->execute();
+                                                            $result = $query->get_result();
+                                                            if ($result->num_rows > 0) {
+                                                                $cnt = 1;
+                                                                while ($item = $result->fetch_object()) { 
+                                                                    ?>
+                                                                    <option value="<?php echo $item->option_name ?>"><?php echo $item->option_name ?></option>
+                                                                    <?php
+                                                                }
+                                                            }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="form-row">
+                                                <div class="col-md-12">
+                                                    <label>No. of Accommodation:</label>
+                                                    <input type="text" id="no_accom" name="no_accom" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');" placeholder="Enter Accommodation" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -64,9 +84,7 @@
                                         </div>   
                                     </form>
                                 </div>
-                                <!-- /.card-body -->
                             </div>
-                            <!-- /.card -->
                         </div>
                         <div class="col-lg-8">
                             <div class="card">
@@ -80,25 +98,25 @@
                                             <thead>
                                                 <tr>
                                                     <th>No.</th>
-                                                    <th>Task Option</th>
-                                                    <th>Date</th>
+                                                    <th>Task</th>
+                                                    <th>Accommodation</th>
                                                     <th>Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                    $query = $DB->prepare( "SELECT * FROM option_task ORDER by option_name ASC" );
+                                                    $query = $DB->prepare( "SELECT * FROM ticketing" );
                                                     $query->execute();
                                                     $result = $query->get_result();
                                                     if ($result->num_rows > 0) {
                                                         $cnt = 1;
                                                         while ($item = $result->fetch_object()) { ?>
-                                                        <tr id="view-<?php echo $item->id; ?>">
+                                                        <tr id="ticket-<?php echo $item->id; ?>">
                                                             <td><?php echo $cnt ?></td>
-                                                            <td><?php echo $item->option_name ?></td>
-                                                            <td><?php echo $item->created_at ?></td>
+                                                            <td><?php echo $item->subject ?></td>
+                                                            <td><?php echo $item->assign_to ?></td>
                                                             <td>
-                                                                <a href="#" data-toggle="modal" data-target="#modal-editOptionTask" onclick="editOptionTask(<?php echo $item->id; ?>)" class="btn btn-info btn-xs" title="Edit">
+                                                                <a href="#" data-toggle="modal" data-target="#modal-editTicket" onclick="editTicket(<?php echo $item->id; ?>)" class="btn btn-info btn-xs" title="Edit">
                                                                     <i class="fas fa-info-circle"></i>
                                                                 </a>
                                                                 <a id="<?php echo $item->id ?>" onclick="deleteItem(this.id)" class="btn btn-danger btn-xs" title="Delete">
@@ -116,31 +134,29 @@
                                         </table>
                                     </div>
                                 </div>
-                                <!-- /.card-body -->
                             </div>
-                            <!-- /.card -->
                         </div>
                     </div>
                 </div>
             </section>
-            <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
-<?php include 'pages/option/modal.php';?>
+
+<?php include 'pages/accomplishment/modal.php';?>
 
 <?= element( 'footer' ); ?>
 
 
-<script src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/assets/js/addOptionTaskValidation.js"></script>
+<script src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/assets/js/addDailyTaskValidation.js"></script>
 
 <script>
-    function editOptionTask(id) {
+    function editTicket(id) {
         $.ajax({
-            url: "../pages/option/edit-option-task.php",
+            url: "../pages/accomplishment/edit-ticket.php",
             method: "POST",
             data: { id: id },
                 success: function (data) {
-                    $('#editOptionTask').html(data);
+                    $('#editTicket').html(data);
                 },
                 error: function (xhr, status, error) {
                 console.error(xhr.responseText);
@@ -164,7 +180,7 @@
             if (result.isConfirmed) {
                 $.ajax({
                     type: "GET",
-                    url: "../actions/delete_optiontask.php",
+                    url: "../actions/delete_ticket.php",
                     data: { id },
                     success: function(response) {
                         Swal.fire({
@@ -174,7 +190,7 @@
                             showConfirmButton: false,
                             timer: 2000 
                         }).then(function() {
-                            $('#view-'+id).fadeOut(1000, function() {
+                            $('#ticket-'+id).fadeOut(1000, function() {
                                 $(this).remove(); 
                             });
                         });

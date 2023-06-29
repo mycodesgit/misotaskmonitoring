@@ -64,11 +64,11 @@
                                         <div class="form-group">
                                             <div class="form-row">
                                                 <div class="col-md-6">
-                                                    <label for="month">From:</label>
+                                                    <label>From:</label>
                                                     <input type="date" name="start_date" class="form-control">
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <label for="month">To:</label>
+                                                    <label>To:</label>
                                                     <input type="date" name="end_date" class="form-control">
                                                 </div>
                                             </div>

@@ -67,8 +67,11 @@
 
                 <form method="post" id="quickForm">
                     <input type="hidden" name="action" value="validate_user">
+
+                    <?= csrf(); ?>
+
                     <div class="input-group mb-3">
-                        <input type="text" name="username" value="<?php echo old('username'); ?>" class="form-control" placeholder="Username" autofocus="">
+                        <input type="text" name="username" value="<?php echo old('username'); ?>" class="form-control" placeholder="Username" autofocus="" autocomplete="username">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
@@ -76,7 +79,7 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" name="password" id="myInput" class="form-control" placeholder="Password">
+                        <input type="password" name="password" id="myInput" class="form-control" placeholder="Password" autocomplete="current-password">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>

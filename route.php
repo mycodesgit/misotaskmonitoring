@@ -23,6 +23,14 @@ $gantt_chart_link = (strpos($current_url, $gantt_chart_url) !== false) ? $curren
 $daily_task_url = '/accomplishment/daily';
 $daily_task_link = (strpos($current_url, $daily_task_url) !== false) ? $current_url : '../accomplishment/daily';
 
+/* Daily Task Edit */
+$daily_taskEdit_url = '/accomplishment/edit';
+$daily_taskEdit_link = (strpos($current_url, $daily_taskEdit_url) !== false) ? $current_url : '../accomplishment/edit';
+
+/* Ticketing */
+$ticket_url = '/ticketing/viewContent';
+$ticket_link = (strpos($current_url, $ticket_url) !== false) ? $current_url : '../ticketing/viewContent';
+
 /* Notes */
 $notes_url = '/notes/nlist';
 $notes_link = (strpos($current_url, $notes_url) !== false) ? $current_url : '../notes/nlist';
