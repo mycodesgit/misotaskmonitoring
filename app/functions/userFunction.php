@@ -15,14 +15,73 @@ if (!defined('ACCESS')) {
     die('DIRECT ACCESS NOT ALLOWED');
 }
 
-// Function to add 
-function addUser($fname, $mname, $lname, $username, $password, $emp_gender, $usertype)
-{
+function getUserLogData($id) {
+    global $DB;
+
+    $id = $_SESSION[AUTH_ID];
+
+    $userQuery = $DB->prepare("SELECT * FROM users WHERE id = ?");
+    $userQuery->bind_param("i", $id);
+    $userQuery->execute();
+    $userResult = $userQuery->get_result();
+
+    if ($userResult->num_rows > 0) {
+        $userData = $userResult->fetch_object();
+        
+        if ($userData->profile_image !== null) {
+            $profileImageUrl = dirname($_SERVER['PHP_SELF']) .  "/assets/img/profile/" . $userData->profile_image;
+        } else {
+            $profileImageUrl = dirname($_SERVER['PHP_SELF']) .  "/assets/adminLTE-3/img/user.png";
+        }
+    } else {
+        $profileImageUrl = dirname($_SERVER['PHP_SELF']) .  "/assets/adminLTE-3/img/user.png";
+    }
+
+    return [
+        'userData' => $userData,
+        'profileImageUrl' => $profileImageUrl
+    ];
+}
+
+
+
+function userRead() {
+    global $DB;
+
+    $query = $DB->prepare("SELECT users.*, users.id AS userid, offices.office_name, offices.office_abbr
+                      FROM users 
+                      INNER JOIN offices ON users.off_id = offices.id");
+
+    $query->execute();
+    $result = $query->get_result();
+
+    $users = array();
+    while ($user = $result->fetch_object()) {
+        $users[] = $user;
+    }
+
+    return $users;
+}
+
+function getUserByToken($token) {
+    global $DB;
+
+    $token = $_GET[AUTH_TOKEN];
+    $stmt = $DB->prepare("SELECT * FROM users INNER JOIN offices ON users.off_id = offices.id WHERE token = ?");
+    $stmt->bind_param("s", $token);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user = $result->fetch_object();
+    
+    return $user;
+}
+
+
+function userCreate($fname, $mname, $lname, $username, $off_id, $password, $emp_gender, $usertype) {
     global $DB;
 
     $token = bin2hex(random_bytes(16));
 
-    // Check if the username or password already exists
     $sql_check = "SELECT COUNT(*) AS count FROM users WHERE username = ? OR password = ?";
     $stmt_check = $DB->prepare($sql_check);
     $stmt_check->bind_param("ss", $username, $password);
@@ -35,10 +94,9 @@ function addUser($fname, $mname, $lname, $username, $password, $emp_gender, $use
         return false;
     }
 
-    // Insert 
-    $sql_insert = "INSERT INTO users SET fname=?, mname=?, lname=?, username=?, password=?, emp_gender=?, usertype=?, token=?";
+    $sql_insert = "INSERT INTO users SET fname=?, mname=?, lname=?, username=?, off_id=?, password=?, emp_gender=?, usertype=?, token=?";
     $stmt_insert = $DB->prepare($sql_insert);
-    $stmt_insert->bind_param("ssssssss", $fname, $mname, $lname, $username, $password, $emp_gender, $usertype, $token);
+    $stmt_insert->bind_param("sssssssss", $fname, $mname, $lname, $username, $off_id, $password, $emp_gender, $usertype, $token);
 
     if ($stmt_insert->execute()) {
         set_message("<i class='fa fa-check'></i> User Added Successfully", 'success');
@@ -49,12 +107,10 @@ function addUser($fname, $mname, $lname, $username, $password, $emp_gender, $use
     }
 }
 
-// Function to update
-function updateUser($fname, $mname, $lname, $username, $emp_gender, $usertype, $token)
-{
+
+function userUpdate($fname, $mname, $lname, $username, $emp_gender, $usertype, $token) {
     global $DB;
 
-    // Check if the username already exists
     $sql_check = "SELECT COUNT(*) AS count FROM users WHERE username = ? AND token <> ?";
     $stmt_check = $DB->prepare($sql_check);
     $stmt_check->bind_param("ss", $username, $token);
@@ -67,7 +123,7 @@ function updateUser($fname, $mname, $lname, $username, $emp_gender, $usertype, $
         return false;
     }
 
-    // Update
+    
     $sql_update = "UPDATE users SET fname=?, mname=?, lname=?, username=?, emp_gender=?, usertype=? WHERE token=?";
     $stmt_update = $DB->prepare($sql_update);
     $stmt_update->bind_param("sssssss", $fname, $mname, $lname, $username, $emp_gender, $usertype, $token);
@@ -81,12 +137,10 @@ function updateUser($fname, $mname, $lname, $username, $emp_gender, $usertype, $
     }
 }
 
-// Function to update password
-function updateUserPassword($password, $token)
-{
+
+function passUpdate($password, $token) {
     global $DB;
 
-    // Update
     $sql_update = "UPDATE users SET password=? WHERE token=?";
     $stmt_update = $DB->prepare($sql_update);
     $stmt_update->bind_param("ss", $password, $token);
@@ -100,20 +154,19 @@ function updateUserPassword($password, $token)
     }
 }
 
-// Function to delete
-function deleteUser($token)
-{
-    global $DB;
 
-    $sql_delete = "DELETE FROM users WHERE token=?";
-    $stmt_delete = $DB->prepare($sql_delete);
-    $stmt_delete->bind_param("s", $token);
+// function userDelete($token) {
+//     global $DB;
 
-    if ($stmt_delete->execute()) {
-        set_message("<i class='fa fa-check'></i> User Deleted Successfully", 'success');
-        return true;
-    } else {
-        set_message("<i class='fa fa-times'></i> Failed to Delete User" . $DB->error, 'danger');
-        return false;
-    }
-}
+//     $sql_delete = "DELETE FROM users WHERE token=?";
+//     $stmt_delete = $DB->prepare($sql_delete);
+//     $stmt_delete->bind_param("s", $token);
+
+//     if ($stmt_delete->execute()) {
+//         set_message("<i class='fa fa-check'></i> User Deleted Successfully", 'success');
+//         return true;
+//     } else {
+//         set_message("<i class='fa fa-times'></i> Failed to Delete User" . $DB->error, 'danger');
+//         return false;
+//     }
+// }

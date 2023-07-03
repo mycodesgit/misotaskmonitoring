@@ -71,9 +71,30 @@
                                     <option value="Administrator">Administrator</option>
                                     <option value="MIS Officer">MIS Officer</option>
                                     <option value="Staff">Staff</option>
+                                    <option value="User">User</option>
                                 </select>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="form-group">
+                    <label>Select Office:</label>
+                        <select name="off_id" class="form-control select2" style="width: 100%;">
+                            <option value="">-- Select --</option>
+                            <?php  
+                            $query = $DB->prepare("SELECT * FROM offices");
+                            $query->execute();
+                            $result = $query->get_result();
+                            if ($result->num_rows > 0) {
+                                $cnt = 1;
+                                while ($office = $result->fetch_object()) { 
+                                    ?>
+                                    <option value="<?php echo $office->id ?>"><?php echo $office->office_abbr . ' ' . $office->office_name; ?></option>
+                                    <?php
+                                }
+                            }
+                            ?>
+                        </select>
                     </div>
 
                     <div class="form-group">

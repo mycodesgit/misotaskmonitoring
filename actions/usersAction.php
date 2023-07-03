@@ -11,12 +11,10 @@
 |
 */
 
-if (!defined('ACCESS')) {
-    die('DIRECT ACCESS NOT ALLOWED');
-}
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
+    if (!defined('ACCESS')) {
+        die('DIRECT ACCESS NOT ALLOWED');
+    }
     validate_csrf_token();
 
     if (isset($_POST['btn-submit'])) {
@@ -24,12 +22,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $mname = $_POST['mname'];
         $lname = $_POST['lname'];
         $username = $_POST['username'];
+        $off_id = $_POST['off_id'];
         $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
         $emp_gender = $_POST['emp_gender'];
         $usertype = $_POST['usertype'];
 
-        addUser($fname, $mname, $lname, $username, $password, $emp_gender, $usertype);
-        // Redirect or perform additional actions as needed
+        userCreate($fname, $mname, $lname, $username, $off_id, $password, $emp_gender, $usertype);
     }
 
     if (isset($_POST['btn-update'])) {
@@ -41,23 +39,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $usertype = $_POST['usertype'];
         $token = $_GET['token'];
 
-        updateUser($fname, $mname, $lname, $username, $emp_gender, $usertype, $token);
-        // Redirect or perform additional actions as needed
+        userUpdate($fname, $mname, $lname, $username, $emp_gender, $usertype, $token);
     }
 
     if (isset($_POST['btn-updatePassword'])) {
         $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
         $token = $_GET['token'];
 
-        updateUserPassword($password, $token);
-        // Redirect or perform additional actions as needed
+        passUpdate($password, $token);
     }
 
     if (isset($_POST['btn-delete'])) {
         $token = $_GET['token'];
 
-        deleteUser($token);
-        // Redirect or perform additional actions as needed
+        userDelete($token);
     }
+    
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    if (isset($_GET['btnDeleteUser'])) {
+        $id = $_GET['id'];
+        include("../init.php");
+    
+        $sql_delete = "DELETE FROM users WHERE id=?";
+        $stmt_delete = $DB->prepare($sql_delete);
+        $stmt_delete->bind_param("s", $id);
+    
+        if ($stmt_delete->execute()) {
+            set_message("<i class='fa fa-check'></i> User Deleted Successfully", 'success');
+            return true;
+        } else {
+            set_message("<i class='fa fa-times'></i> Failed to Delete User" . $DB->error, 'danger');
+            return false;
+        }
+    }
+
 }
 ?>

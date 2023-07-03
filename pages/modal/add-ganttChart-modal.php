@@ -61,7 +61,7 @@
                                 $cnt = 1;
                                 while ($user = $result->fetch_object()) { 
                                     ?>
-                                    <option value="<?php echo $user->id ?>"><?php echo $user->fname . ' ' . $user->lname; ?></option>
+                                    <option value="<?php echo $user->id ?>" <?php if($_SESSION['id'] == $user->id){ echo'selected'; }?>><?php echo $user->fname . ' ' . $user->lname; ?></option>
                                     <?php
                                 }
                             }

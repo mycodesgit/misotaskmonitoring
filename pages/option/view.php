@@ -87,30 +87,22 @@
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                    $query = $DB->prepare( "SELECT * FROM option_task ORDER by option_name ASC" );
-                                                    $query->execute();
-                                                    $result = $query->get_result();
-                                                    if ($result->num_rows > 0) {
-                                                        $cnt = 1;
-                                                        while ($item = $result->fetch_object()) { ?>
-                                                        <tr id="view-<?php echo $item->id; ?>">
-                                                            <td><?php echo $cnt ?></td>
-                                                            <td><?php echo $item->option_name ?></td>
-                                                            <td><?php echo $item->created_at ?></td>
+                                                    $tasks = getOptionTasks();
+                                                    foreach ($tasks as $cnt => $data) { ?>
+                                                        <tr id="view-<?php echo $data->id; ?>">
+                                                            <td><?php echo $cnt+1 ?></td>
+                                                            <td><?php echo $data->option_name ?></td>
+                                                            <td><?php echo $data->created_at ?></td>
                                                             <td>
-                                                                <a href="#" data-toggle="modal" data-target="#modal-editOptionTask" onclick="editOptionTask(<?php echo $item->id; ?>)" class="btn btn-info btn-xs" title="Edit">
+                                                                <a href="#" data-toggle="modal" data-target="#modal-editOptionTask" onclick="editOptionTask(<?php echo $data->id; ?>)" class="btn btn-info btn-xs" title="Edit">
                                                                     <i class="fas fa-info-circle"></i>
                                                                 </a>
-                                                                <a id="<?php echo $item->id ?>" onclick="deleteItem(this.id)" class="btn btn-danger btn-xs" title="Delete">
+                                                                <a id="<?php echo $data->id ?>" onclick="deleteItem(this.id)" class="btn btn-danger btn-xs" title="Delete">
                                                                     <i class="fas fa-trash"></i>
                                                                 </a>
                                                             </td>
                                                         </tr>
-                                                        <?php
-                                                            $cnt++;
-                                                        }
-                                                    } else {
-                                                    }
+                                                    <?php }
                                                 ?>
                                             </tbody>
                                         </table>

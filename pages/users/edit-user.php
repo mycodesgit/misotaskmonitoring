@@ -4,7 +4,7 @@
 
 <?php
     $token = $_GET['token'];
-    $stmt = $DB->prepare("SELECT * FROM users WHERE token = ?");
+    $stmt = $DB->prepare("SELECT * FROM users INNER JOIN offices ON users.off_id = offices.id WHERE users.token = ?");
     $stmt->bind_param("s", $token);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -136,6 +136,7 @@
                                                     <option value="Administrator" <?php echo ($user->usertype == 'Administrator') ? 'selected="selected"' : '' ?>>Administrator</option>
                                                     <option value="MIS Officer" <?php echo ($user->usertype == 'MIS Officer') ? 'selected="selected"' : '' ?>>MIS Officer</option>
                                                     <option value="Staff" <?php echo ($user->usertype == 'Staff') ? 'selected="selected"' : '' ?>>Staff</option>
+                                                    <option value="User" <?php echo ($user->usertype == 'User') ? 'selected="selected"' : '' ?>>User</option>
                                                 </select>
                                             </div>
                                         </div>

@@ -35,23 +35,23 @@
                                 <?= show_message(); ?>
                                 <div class="card-body">
                                     <form method="post" id="addDailyTask">
-                                        <input type="hidden" name="action" value="add_dailyTask"> 
-
+                                        <input type="hidden" name="action" value="ticketAction"> 
+                                        <?= csrf_token(); ?>
                                         <div class="form-group">
                                             <div class="form-row">
                                                 <div class="col-md-12">
-                                                    <label>Task:</label>
-                                                    <select name="task" class="form-control select2" style="width: 100%;">
+                                                    <label>Category:</label>
+                                                    <select name="cat_id" class="form-control select2" style="width: 100%;">
                                                         <option value="">--- Select ---</option>
                                                         <?php  
-                                                            $query = $DB->prepare("SELECT * FROM option_task");
+                                                            $query = $DB->prepare("SELECT * FROM category");
                                                             $query->execute();
                                                             $result = $query->get_result();
                                                             if ($result->num_rows > 0) {
                                                                 $cnt = 1;
                                                                 while ($item = $result->fetch_object()) { 
                                                                     ?>
-                                                                    <option value="<?php echo $item->option_name ?>"><?php echo $item->option_name ?></option>
+                                                                    <option value="<?php echo $item->id ?>"><?php echo $item->cat_name ?></option>
                                                                     <?php
                                                                 }
                                                             }
@@ -64,8 +64,23 @@
                                         <div class="form-group">
                                             <div class="form-row">
                                                 <div class="col-md-12">
-                                                    <label>No. of Accommodation:</label>
-                                                    <input type="text" id="no_accom" name="no_accom" oninput="var words = this.value.split(' '); for(var i = 0; i < words.length; i++){ words[i] = words[i].substr(0,1).toUpperCase() + words[i].substr(1); } this.value = words.join(' ');" placeholder="Enter Accommodation" class="form-control">
+                                                    <label>Urgency Level:</label>
+                                                    <select name="urg_lvl" class="form-control select2" style="width: 100%;">
+                                                        <option value="">--- Select ---</option>
+                                                        <option>CRITICAL</option>
+                                                        <option>HARD</option>
+                                                        <option>MEDIUM</option>
+                                                        <option>LOW</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="form-row">
+                                                <div class="col-md-12">
+                                                    <label>Concern</label>
+                                                    <textarea class="form-control" rows="4" id="no_accom" name="concern"></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -76,7 +91,7 @@
                                                     <button type="button" class="btn btn-danger" data-dismiss="modal">
                                                         Close
                                                     </button>
-                                                    <button type="submit" name="btn-submit" class="btn btn-primary">
+                                                    <button type="submit" name="btn-create" class="btn btn-primary">
                                                         <i class="fas fa-save"></i> Save
                                                     </button>
                                                 </div>
@@ -90,47 +105,24 @@
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="card-title">
+                                        <i class="fas fa-info-circle"></i> 
                                     </h3>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <table id="example1" class="table table-hover text-sm">
+                                        <table id="example" class="table table-hover text-sm">
                                             <thead>
                                                 <tr>
                                                     <th>No.</th>
-                                                    <th>Task</th>
-                                                    <th>Accommodation</th>
+                                                    <th>Ticket ID</th>
+                                                    <th>Category</th>
+                                                    <th>Concern</th>
+                                                    <th>Urgency Level</th>
+                                                    <th>Status</th>
                                                     <th>Actions</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                <?php
-                                                    $query = $DB->prepare( "SELECT * FROM ticketing" );
-                                                    $query->execute();
-                                                    $result = $query->get_result();
-                                                    if ($result->num_rows > 0) {
-                                                        $cnt = 1;
-                                                        while ($item = $result->fetch_object()) { ?>
-                                                        <tr id="ticket-<?php echo $item->id; ?>">
-                                                            <td><?php echo $cnt ?></td>
-                                                            <td><?php echo $item->subject ?></td>
-                                                            <td><?php echo $item->assign_to ?></td>
-                                                            <td>
-                                                                <a href="#" data-toggle="modal" data-target="#modal-editTicket" onclick="editTicket(<?php echo $item->id; ?>)" class="btn btn-info btn-xs" title="Edit">
-                                                                    <i class="fas fa-info-circle"></i>
-                                                                </a>
-                                                                <a id="<?php echo $item->id ?>" onclick="deleteItem(this.id)" class="btn btn-danger btn-xs" title="Delete">
-                                                                    <i class="fas fa-trash"></i>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                        <?php
-                                                            $cnt++;
-                                                        }
-                                                    } else {
-                                                    }
-                                                ?>
-                                            </tbody>
+                                            <tbody></tbody>
                                         </table>
                                     </div>
                                 </div>
@@ -146,6 +138,7 @@
 
 <?= element( 'footer' ); ?>
 
+<script src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/pages/ticketing/ticketsAjax.js"></script>
 
 <script src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/assets/js/addDailyTaskValidation.js"></script>
 

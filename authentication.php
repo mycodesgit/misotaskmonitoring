@@ -15,7 +15,13 @@
 
 	// default page to login, name of the file found in /pages
 	define( 'LOGIN_REDIRECT', 'login' ); 
-
+	
+    $st = $DB->prepare("SELECT * FROM users WHERE id = ?");
+    $st->bind_param("s", $_SESSION[AUTH_ID]);
+    $st->execute();
+    $res = $st->get_result();
+    $auth = $res->fetch_object();
+	
 	/*
 		TO USE:
 			To add restricted pages, just uncomment the variable $restricted_pages,
@@ -46,6 +52,7 @@
 						"profile/info", 
 						"ganttChart/list",
 						"accomplishment/daily",
+						"accomplishment/edit",
 						"ticketing/viewContent",
 						"notes/nlist",  
 						"reports/generate",
@@ -59,6 +66,7 @@
 						"profile/info", 
 						"ganttChart/list",
 						"accomplishment/daily",
+						"accomplishment/edit",
 						"ticketing/viewContent",
 						"notes/nlist",  
 						"reports/generate",
@@ -66,9 +74,17 @@
 						"error/404"
 					];
 	$restricted_pages[ 'Staff' ][ 'default_page' ] = "home/dashboard";
+
+	$restricted_pages[ 'User' ]
+		['access'] = [ "home/dashboard", 
+						"profile/info",
+						"ticketing/viewContent",
+						"error/404"
+					];
+	$restricted_pages[ 'User' ][ 'default_page' ] = "home/dashboard";
 	
 	
-	$restricted_pages[ 'default' ]['access'] = [ "default", "viewMonitoring", "login", "register" ];
+	$restricted_pages[ 'default' ]['access'] = [ "default", "viewMonitoring", "viewMonitoringTicketsTable", "login", "register" ];
 	$restricted_pages[ 'default' ][ 'default_page' ] = "default"; 
 
 	has_access( true );

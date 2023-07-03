@@ -43,7 +43,7 @@ ob_start();
     th, td {
         padding: 8px;
         text-align: left;
-        border: 1px solid #ddd;
+        border: 1px solid #bbb;
     }
     th {
         background-color: #f2f2f2;
@@ -147,7 +147,7 @@ ob_start();
                         <tr>
                             <td><?php echo $cnt ?></td>
                             <td><?php echo $item->task ?></td>
-                            <td><?php echo str_replace(',', '<br>', $item->no_accom); ?></td>
+                            <td><?php echo str_replace('-', '<br>', $item->no_accom); ?></td>
                         </tr>
                         <?php
                         $cnt++;

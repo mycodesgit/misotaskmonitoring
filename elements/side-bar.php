@@ -9,6 +9,9 @@
             </a>
         </li>
 
+        <?php if ($_SESSION['usertype'] == 'Administrator' || $_SESSION['usertype'] == 'Staff' || $_SESSION['usertype'] == 'MIS Officer') { ?>
+
+
         <li class="nav-item">
             <a href="<?= $gantt_chart_link ?>" class="nav-link <?php echo basename($_SERVER['REQUEST_URI']) == 'list' ? 'active' : ''; ?>">
                 <i class="nav-icon fas fa-chart-bar"></i>
@@ -22,6 +25,7 @@
                 <p>Daily Task</p>
             </a>
         </li>
+        <?php }?>
 
         <li class="nav-item">
             <a href="<?= $ticket_link ?>" class="nav-link <?php echo basename($_SERVER['REQUEST_URI']) == 'viewContent' ? 'active' : ''; ?>">
@@ -29,6 +33,8 @@
                 <p>Ticketing</p>
             </a>
         </li>
+
+        <?php if ($_SESSION['usertype'] == 'Administrator' || $_SESSION['usertype'] == 'Staff' || $_SESSION['usertype'] == 'MIS Officer') { ?>
 
         <li class="nav-item">
             <a href="<?= $notes_link ?>" class="nav-link <?php echo basename($_SERVER['REQUEST_URI']) == 'nlist' ? 'active' : ''; ?>">
@@ -45,6 +51,7 @@
                 <p>Reports</p>
             </a>
         </li>
+        <?php }?>
 
         <?php if($_SESSION['usertype'] == 'Administrator') {?>
         <li class="nav-header">Configuration</li>

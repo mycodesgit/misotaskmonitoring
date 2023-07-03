@@ -8,8 +8,8 @@ date_default_timezone_set("Asia/Manila");
 // define( 'DBHOST', 'localhost' );
 // define( 'DBUSER', 'root' );
 // define( 'DBPASS', 'r@@t' );
-// define( 'DBNAME', 'db_cpsuimiso-monitoring' ); 
+// define( 'DBNAME', 'db_cpsumiso-monitoring' ); 
 
-define( 'SITE_TITLE', 'Lorem PHP' );
+// define( 'SITE_TITLE', 'MIS | eCalendar' );
 
 

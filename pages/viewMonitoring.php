@@ -52,7 +52,7 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-8">
+                    <div class="col-lg-7">
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">Task Monitoring</h3>
@@ -173,51 +173,24 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-4">
+                    <div class="col-lg-5">
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">Ticketing</h3>
                             </div>
                             <div class="card-body">
-                                <div class="">
-                                    <table id="example2" class="table table-hover table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        <?php
-                                            $query = $DB->prepare( "SELECT * FROM ticketing" );
-                                            $query->execute();
-                                            $result = $query->get_result();
-                                            if ($result->num_rows > 0) {
-                                                $cnt = 1;
-                                                while ($item = $result->fetch_object()) { ?>
-                                            <tr>
-                                                <td>
-                                                    <span class="badge bg-primary float-left align-middle">New</span>
-                                                </td>
-                                                <td class="mailbox-name">
-                                                    <a href="#"><?php echo $item->assign_to ?></a>
-                                                </td>
-                                                <td class="mailbox-subject">
-                                                    <b><?php echo $item->subject ?></b>
-                                                </td>
-                                                <td class="mailbox-date">5 mins ago</td>
-                                            </tr>
-                                            <?php
-                                                    //$cnt++;
-                                                }
-                                            } else {
-                                            }
-                                        ?>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                <table id="example" class="table table-hover table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Ticket</th>
+                                            <th>Category</th>
+                                            <th>Office</th>
+                                            <th>Urgency</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -235,7 +208,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-3 col-6">
+                    <div class="col-lg-2 col-6">
                         <div class="small-box bg-success">
                             <div class="inner" id="taskNowDoneContainer">
                                 <h3></h3>
@@ -275,6 +248,8 @@
 <script src="assets/adminLTE-3/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="assets/adminLTE-3/dist/js/adminlte.min.js"></script>
+
+<script src="assets/ajax/monitoringTicketsAjax.js"></script>
 
 
 <script>

@@ -9,7 +9,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1><i class="fas fa-calendar"></i> Daily Task</h1>
+                            <h1><i class="fas fa-calendar-alt"></i> Daily Task</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
@@ -37,7 +37,7 @@
                                 <?= show_message(); ?>
                                 <div class="card-body">
                                     <form method="post" id="addDailyTask">
-                                        <input type="hidden" name="action" value="add_dailyTask"> 
+                                        <input type="hidden" name="action" value="dailyTaskAction"> 
 
                                         <?= csrf_token(); ?>
 
@@ -47,18 +47,13 @@
                                                     <label>Task:</label>
                                                     <select name="task" class="form-control select2" style="width: 100%;">
                                                         <option value="">--- Select ---</option>
-                                                        <?php  
-                                                            $query = $DB->prepare("SELECT * FROM option_task");
-                                                            $query->execute();
-                                                            $result = $query->get_result();
-                                                            if ($result->num_rows > 0) {
-                                                                $cnt = 1;
-                                                                while ($item = $result->fetch_object()) { 
-                                                                    ?>
-                                                                    <option value="<?php echo $item->option_name ?>"><?php echo $item->option_name ?></option>
-                                                                    <?php
-                                                                }
-                                                            }
+                                                        <?php
+                                                            $tasks = getOptionTasks();
+                                                            foreach ($tasks as $cnt => $data) { ?>
+                                                                <option value="<?php echo $data->option_name ?>">
+                                                                    <?php echo $data->option_name ?>    
+                                                                </option>
+                                                            <?php }
                                                         ?>
                                                     </select>
                                                 </div>
@@ -89,6 +84,33 @@
                                     </form>
                                 </div>
                             </div>
+                            <div class="card bg-gradient-default">
+                                <div class="card-header border-0">
+                                    <h3 class="card-title">
+                                    <i class="far fa-calendar-alt"></i>
+                                    Calendar
+                                    </h3>
+                                    <div class="card-tools">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-offset="-52">
+                                            <i class="fas fa-bars"></i>
+                                            </button>
+                                            <div class="dropdown-menu" role="menu">
+                                                <a href="#" class="dropdown-item">Add new event</a>
+                                                <a href="#" class="dropdown-item">Clear events</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a href="#" class="dropdown-item">View calendar</a>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-default btn-sm" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body pt-0">
+                                    <div id="calendar" style="width: 100%"></div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="col-lg-8">
@@ -99,10 +121,16 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
+                                        <div class="form-group">
+                                            <label for="monthSelect">Select Month:</label>
+                                            <select class="form-control" id="monthSelect" onchange="filterTasksByMonth()">
+                                                <option value="current">Current Month</option>
+                                                <option value="previous">Previous Month</option>
+                                            </select>
+                                        </div>
                                         <table id="example1" class="table table-hover text-sm">
                                             <thead>
                                                 <tr>
-                                                    <th>No.</th>
                                                     <th>Task</th>
                                                     <th>Accommodation</th>
                                                     <th>Actions</th>
@@ -110,15 +138,13 @@
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                    $query = $DB->prepare( "SELECT * FROM accomplishment WHERE user_id=?" );
-                                                    $query->bind_param("s", $_SESSION[AUTH_ID]);
-                                                    $query->execute();
-                                                    $result = $query->get_result();
-                                                    if ($result->num_rows > 0) {
-                                                        $cnt = 1;
-                                                        while ($item = $result->fetch_object()) { ?>
+                                                    $tasks = getDailyTasks($auth->id);
+                                                    $currentMonth = date('m');
+                                                    foreach ($tasks as $cnt => $item) {
+                                                        $taskMonth = date('m', strtotime($item->created_at));
+                                                        if ($taskMonth == $currentMonth) { ?>
+
                                                         <tr id="daily-<?php echo $item->id; ?>">
-                                                            <td><?php echo $cnt ?></td>
                                                             <td><?php echo $item->task ?></td>
                                                             <td><?php echo $item->no_accom ?></td>
                                                             <td>
@@ -130,10 +156,8 @@
                                                                 </a>
                                                             </td>
                                                         </tr>
-                                                        <?php
-                                                            $cnt++;
-                                                        }
-                                                    } else {
+
+                                                    <?php }
                                                     }
                                                 ?>
                                             </tbody>
@@ -156,6 +180,17 @@
 <script src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/assets/js/addDailyTaskValidation.js"></script>
 
 <script>
+    function filterTasksByMonth() {
+        var selectedMonth = document.getElementById('monthSelect').value;
+        if (selectedMonth === 'previous') {
+            window.location.href = '?month=previous';
+        } else {
+            window.location.href = '?month=current';
+        }
+    }
+</script>
+
+<script>
     function deleteItem(id) {
         Swal.fire({
             title: 'Are you sure?',
@@ -165,12 +200,13 @@
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
+                
                 $.ajax({
                     type: "GET",
-                    url: "../actions/delete_accom.php",
-                    data: { id },
+                    url: "../actions/dailyTaskAction.php",
+                    data: { id:id, btnDelete:true},
                     success: function(response) {
                         Swal.fire({
                             title: 'Deleted!',
@@ -179,7 +215,7 @@
                             showConfirmButton: false,
                             timer: 2000 
                         }).then(function() {
-                            $('#daily-'+id).fadeOut(1000, function() {
+                            $('#daily-' + id).fadeOut(1000, function() {
                                 $(this).remove(); 
                             });
                         });

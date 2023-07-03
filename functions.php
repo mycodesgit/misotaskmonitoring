@@ -170,7 +170,7 @@ function add_record( $name, $fields = [] ) {
 // sample
 // update_record( "persons", [ 'key' => 'id', 'val' => $_POST[ 'id' ] ], $_POST[ 'data' ] )
 function update_record( $name, $id, $fields = [] ) {
-	global $DB;
+	global $DB; 
 
 	if( ( isset( $name ) && isset( $fields ) ) && !empty( $name ) && !empty( $fields ) && is_array( $fields ) ) {
 
@@ -217,4 +217,4 @@ function log_errors( $message ) {
 
 /* ADD YOUR CUSTOM FUNCTIONS IN custom_functions.php */
 require 'route.php';
-require 'app/functions/userFunction.php';
+
