@@ -20,41 +20,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     validate_csrf_token();
 
     if (isset($_POST['btn-submit'])) {
-        $task = $_POST['task'];
-        $no_accom = $_POST['no_accom'];
+        $note_title = $_POST['note_title'];
+        $note_content = $_POST['note_content'];
+        $note_color = $_POST['note_color'];
         $user_id = $_SESSION[AUTH_ID]; 
         $created_at = date("Y-m-d");
 
-        createDailyTasks($task, $no_accom, $user_id, $created_at);
+        createNotes($note_title, $note_content, $note_color, $user_id,  $created_at);
     }
 
     if (isset($_POST['btn-update'])) {
-        $task = $_POST['task'];
-        $no_accom = $_POST['no_accom'];
+        $note_name = $_POST['note_name'];
         $token = $_GET['token'];
 
-        updateDailyTasks($task, $no_accom, $token);
+        updateNotes($note_name, $token);
     }
 
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+// if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+//     if (isset($_GET['btnDelete'])) {
+//         $id = $_GET['id'];
+//         include("../init.php");
     
-    include("../init.php");
-    
-    if (isset($_GET['btnDelete'])) {
-        $id = $_GET['id'];
-    
-        $sql = "DELETE FROM accomplishment WHERE id=?";
-        $stmt = $DB->prepare($sql);
-        $stmt->bind_param("i", $id);
+//         $sql = "DELETE FROM accomplishment WHERE id=?";
+//         $stmt = $DB->prepare($sql);
+//         $stmt->bind_param("i", $id);
         
-        if ($stmt->execute()) {
-             echo "deleted";
-        } else {
-            echo "deleted";
-        }
-    }
+//         if ($stmt->execute()) {
+//              echo "deleted";
+//         } else {
+//             echo "deleted";
+//         }
+//     }
 
-}
+// }
 ?>

@@ -25,14 +25,24 @@
                 <p>Daily Task</p>
             </a>
         </li>
-        <?php }?>
 
         <li class="nav-item">
-            <a href="<?= $ticket_link ?>" class="nav-link <?php echo basename($_SERVER['REQUEST_URI']) == 'viewContent' ? 'active' : ''; ?>">
+            <a href="<?= $ticketing_link ?>" class="nav-link <?php echo basename($_SERVER['REQUEST_URI']) == 'viewTicket' ? 'active' : ''; ?>">
                 <i class="nav-icon fas fa-ticket-alt"></i>
                 <p>Ticketing</p>
             </a>
         </li>
+        <?php }?>
+
+        <?php if($_SESSION['usertype'] == 'User') {?>
+        <li class="nav-item">
+            <a href="<?= $ticket_link ?>" class="nav-link <?php echo basename($_SERVER['REQUEST_URI']) == 'viewContent?id=' ? 'active' : ''; ?>">
+                <i class="nav-icon fas fa-ticket-alt"></i>
+                <p>Ticketing</p>
+            </a>
+        </li>
+        <?php }?>
+
 
         <?php if ($_SESSION['usertype'] == 'Administrator' || $_SESSION['usertype'] == 'Staff' || $_SESSION['usertype'] == 'MIS Officer') { ?>
 
@@ -60,6 +70,13 @@
             <a href="<?= $option_link ?>" class="nav-link <?php echo basename($_SERVER['REQUEST_URI']) == 'view' ? 'active' : ''; ?>">
                 <i class="nav-icon fas fa-bars"></i>
                 <p>Task Option</p>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a href="<?= $todo_link ?>" class="nav-link <?php echo basename($_SERVER['REQUEST_URI']) == 'viewEvent' ? 'active' : ''; ?>">
+                <i class="nav-icon fas fa-calendar-alt"></i>
+                <p>Calendar</p>
             </a>
         </li>
 

@@ -8,6 +8,7 @@ $(document).ready(function() {
             { data: 'ticket_no' },
             { data: 'category' },
             { data: 'office' },
+            { data: 'concern' },
             { data: 'urgency_level' },
             { data: 'status' }
         ],

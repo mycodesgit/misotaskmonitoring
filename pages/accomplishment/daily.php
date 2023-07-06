@@ -115,20 +115,69 @@
 
                         <div class="col-lg-8">
                             <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title">
-                                    </h3>
-                                </div>
                                 <div class="card-body">
-                                    <div class="table-responsive">
-                                        <div class="form-group">
-                                            <label for="monthSelect">Select Month:</label>
-                                            <select class="form-control" id="monthSelect" onchange="filterTasksByMonth()">
-                                                <option value="current">Current Month</option>
-                                                <option value="previous">Previous Month</option>
-                                            </select>
-                                        </div>
-                                        <table id="example1" class="table table-hover text-sm">
+                                    <div class="">
+                                            <?php
+                                                $selectedMonth = isset($_GET['month']) ? $_GET['month'] : date('m');
+                                                $selectedYear = isset($_GET['year']) ? $_GET['year'] : date('Y');
+                                            ?>
+
+                                            <div class="form-group">
+                                                <div class="form-row">
+                                                    <div class="col-md-4">
+                                                        <label for="yearSelect">Select Year:</label>
+                                                        <select class="form-control" id="yearSelect">
+                                                            <?php
+                                                            $currentYear = date('Y');
+                                                            $years = array($currentYear);
+                                                            for ($i = 1; $i <= 10; $i++) {
+                                                                $prevYear = $currentYear - $i;
+                                                                $years[] = $prevYear;
+                                                            }
+
+                                                            foreach ($years as $year) {
+                                                                $selected = ($year == $selectedYear) ? 'selected' : '';
+                                                                echo "<option value=\"$year\" $selected>$year</option>";
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label for="monthSelect">Select Month:</label>
+                                                        <select class="form-control" id="monthSelect">
+                                                            <?php
+                                                            $months = array(
+                                                                array('value' => '01', 'name' => 'January'),
+                                                                array('value' => '02', 'name' => 'February'),
+                                                                array('value' => '03', 'name' => 'March'),
+                                                                array('value' => '04', 'name' => 'April'),
+                                                                array('value' => '05', 'name' => 'May'),
+                                                                array('value' => '06', 'name' => 'June'),
+                                                                array('value' => '07', 'name' => 'July'),
+                                                                array('value' => '08', 'name' => 'August'),
+                                                                array('value' => '09', 'name' => 'September'),
+                                                                array('value' => '10', 'name' => 'October'),
+                                                                array('value' => '11', 'name' => 'November'),
+                                                                array('value' => '12', 'name' => 'December')
+                                                            );
+
+                                                            foreach ($months as $month) {
+                                                                $selected = ($month['value'] == $selectedMonth) ? 'selected' : '';
+                                                                echo "<option value=\"{$month['value']}\" $selected>{$month['name']}</option>";
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label for="monthSelect">&nbsp;</label>
+                                                        <button type="button" class="btn btn-secondary btn-block" onclick="filterTasks()">Filter</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        <table id="example4" class="table table-hover text-sm">
                                             <thead>
                                                 <tr>
                                                     <th>Task</th>
@@ -138,27 +187,29 @@
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                    $tasks = getDailyTasks($auth->id);
-                                                    $currentMonth = date('m');
-                                                    foreach ($tasks as $cnt => $item) {
-                                                        $taskMonth = date('m', strtotime($item->created_at));
-                                                        if ($taskMonth == $currentMonth) { ?>
+                                                $tasks = getDailyTasks($auth->id);
+                                                foreach ($tasks as $cnt => $item) {
+                                                    $taskMonth = date('m', strtotime($item->created_at));
+                                                    $taskYear = date('Y', strtotime($item->created_at));
+                                                    if ($taskYear == $selectedYear && $taskMonth == $selectedMonth) {
+                                                ?>
 
-                                                        <tr id="daily-<?php echo $item->id; ?>">
-                                                            <td><?php echo $item->task ?></td>
-                                                            <td><?php echo $item->no_accom ?></td>
-                                                            <td>
-                                                                <a href="<?= $daily_taskEdit_link ?>?token=<?php echo $item->token ?>" class="btn btn-info btn-xs" title="Edit">
-                                                                    <i class="fas fa-info-circle"></i>
-                                                                </a>
-                                                                <a id="<?php echo $item->id ?>" onclick="deleteItem(this.id)" class="btn btn-danger btn-xs" title="Delete">
-                                                                    <i class="fas fa-trash"></i>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
+                                                <tr id="daily-<?php echo $item->id; ?>">
+                                                    <td><?php echo $item->task ?></td>
+                                                    <td><?php echo $item->no_accom ?></td>
+                                                    <td>
+                                                        <a href="<?= $daily_taskEdit_link ?>?token=<?php echo $item->token ?>" class="btn btn-info btn-xs" title="Edit">
+                                                            <i class="fas fa-info-circle"></i>
+                                                        </a>
+                                                        <a id="<?php echo $item->id ?>" onclick="deleteItem(this.id)" class="btn btn-danger btn-xs" title="Delete">
+                                                            <i class="fas fa-trash"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
 
-                                                    <?php }
+                                                <?php
                                                     }
+                                                }
                                                 ?>
                                             </tbody>
                                         </table>
@@ -180,15 +231,13 @@
 <script src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/assets/js/addDailyTaskValidation.js"></script>
 
 <script>
-    function filterTasksByMonth() {
-        var selectedMonth = document.getElementById('monthSelect').value;
-        if (selectedMonth === 'previous') {
-            window.location.href = '?month=previous';
-        } else {
-            window.location.href = '?month=current';
-        }
+    function filterTasks() {
+        var month = document.getElementById("monthSelect").value;
+        var year = document.getElementById("yearSelect").value;
+        window.location.href = '?month=' + month + '&year=' + year;
     }
 </script>
+
 
 <script>
     function deleteItem(id) {

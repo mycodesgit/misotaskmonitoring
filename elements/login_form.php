@@ -19,6 +19,7 @@
     <style type="text/css">
         .login-box{
             box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2) !important;
+            -webkit-transition: width .3s ease-in-out;
         }
         .login-logo{
             -webkit-animation: showSlowlyElement 700ms !important; 

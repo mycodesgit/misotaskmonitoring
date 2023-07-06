@@ -33,9 +33,10 @@ foreach ($tickets as $ticket) {
     }
 
     $data[] = array(
-        'ticket_no' => $ticket->ticket_no,
+        'ticket_no' => '<span class="ticket-number">'.$ticket->code.'-'.$ticket->ticket_no.'</span>',
         'category' => $ticket->cat_name,
         'office' => $officeName,
+        'concern' => $ticket->concern,
         'urgency_level' => $urgencyLevel,
         'status' => $stat,
     );

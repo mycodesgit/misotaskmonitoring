@@ -35,7 +35,7 @@
         }
         #progress-container {
 		    position: relative;
-		    height: 15px;
+		    height: 10px;
 		    background-color: #f2f2f2;
 		    border-radius: 4px;
 		    overflow: hidden;

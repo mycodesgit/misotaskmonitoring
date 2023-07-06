@@ -21,6 +21,9 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="<?php echo dirname($_SERVER['PHP_SELF']); ?>/assets/adminLTE-3/dist/css/adminlte.css">
 
+    <!-- fullCalendar -->
+    <link rel="stylesheet" href="<?php echo dirname($_SERVER['PHP_SELF']); ?>/assets/adminLTE-3/plugins/fullcalendar1/fullcalendar.css">
+
     <!-- DataTable -->
     <link rel="stylesheet" href="<?php echo dirname($_SERVER['PHP_SELF']); ?>/assets/adminLTE-3/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="<?php echo dirname($_SERVER['PHP_SELF']); ?>/assets/adminLTE-3/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
@@ -81,7 +84,7 @@
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed text-sm">
     <div class="wrapper">
         <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand navbar-success navbar-light" style="background-color: #337ab7;">
+        <nav class="main-header navbar navbar-expand navbar-light" style="background-color: #337ab7;">
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
@@ -93,24 +96,31 @@
 
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
-                <!-- Navbar Search -->
                 <li class="nav-item">
                     <a class="nav-link" data-widget="fullscreen" href="#" role="button">
                         <i class="fas fa-expand-arrows-alt" style="color: #ffffff;"></i>
                     </a>
                 </li>
 
-                <li class="nav-item">
-                    <!-- <?php
-                        $results = $DB->query("SELECT * FROM users WHERE id=".$_SESSION[AUTH_ID]);
-                        $users = mysqli_fetch_all($results, MYSQLI_ASSOC);
-                    ?>
-                    <?php foreach ($users as $row): ?> -->
-                        <a class="nav-link" title="Sign Out" href="./?action=logout" role="button" style="color: #ffffff;">
-
-                            <i class="fas fa-power-off"></i> Sign Out
+                <li class="nav-item dropdown">
+                    <a class="nav-link" data-toggle="dropdown" href="#">
+                        <i class="far fa-bell" style="color: #ffffff;"></i>
+                        <span class="badge badge-warning navbar-badge">5</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                        <span class="dropdown-item dropdown-header">5 Notifications</span>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-envelope mr-2"></i> Ticket <span class="text-success" style="font-weight: 700;">#UAC-0001</span> has been approved
                         </a>
-                    <!-- <?php endforeach?> -->
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" title="Sign Out" href="./?action=logout" role="button" style="color: #ffffff;">
+
+                        <i class="fas fa-power-off"></i> Sign Out
+                    </a>
                 </li>
             </ul>
         </nav>
@@ -196,6 +206,13 @@
 <!-- ChartJS -->
 <script src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/assets/js/canvasjs.min.js"></script>
 
+<!-- fullCalendar 2.2.5 -->
+<script src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/assets/adminLTE-3/plugins/moment1/moment.min.js"></script>
+<script src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/assets/adminLTE-3/plugins/fullcalendar1/fullcalendar.js"></script>
+
+<!-- DarkMode -->
+<script src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/assets/adminLTE-3/dist/js/dark-mode.js"></script>
+
 <script>
     $(function () {
         $("#example1").DataTable({
@@ -213,6 +230,15 @@
             "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
 
             }).buttons().container().appendTo('#example3_wrapper .col-md-6:eq(0)');
+
+         $("#example4").DataTable({
+            "responsive": false,
+            "lengthChange": false, 
+            "autoWidth": false,
+            "searching": false
+            //"buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
         
         // $('#example2').DataTable({
         //     "paging": true,

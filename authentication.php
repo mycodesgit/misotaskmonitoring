@@ -1,11 +1,4 @@
 <?php	
-	if( ! defined( 'ACCESS' ) ) die( 'DIRECT ACCESS NOT ALLOWED' );
-
-	/* 
-	NOTE:
-	ONLY SET THESE IF YOU WANT TO ALLOW AUTHENTICATION 
-	IF NOT THEN JUST COMMENT THEM OUT 
-	*/
 
 	// table columns found in your 'users' table
 	define( 'AUTH_ID', 'id' );
@@ -22,6 +15,14 @@
     $res = $st->get_result();
     $auth = $res->fetch_object();
 	
+	if( ! defined( 'ACCESS' ) ) die( 'DIRECT ACCESS NOT ALLOWED' );
+
+	/* 
+	NOTE:
+	ONLY SET THESE IF YOU WANT TO ALLOW AUTHENTICATION 
+	IF NOT THEN JUST COMMENT THEM OUT 
+	*/
+
 	/*
 		TO USE:
 			To add restricted pages, just uncomment the variable $restricted_pages,
@@ -36,8 +37,9 @@
 						"ganttChart/list",
 						"accomplishment/daily",
 						"accomplishment/edit",
-						"ticketing/viewContent",
-						"notes/nlist",   
+						"ticketing/viewTicket",
+						"notes/nlist",
+						"calendar/viewEvent",   
 						"users/ulist",
 						"option/view", 
 						"users/edit-user",  
@@ -53,8 +55,11 @@
 						"ganttChart/list",
 						"accomplishment/daily",
 						"accomplishment/edit",
-						"ticketing/viewContent",
-						"notes/nlist",  
+						"ticketing/viewTicket",
+						"notes/nlist",   
+						"users/ulist",
+						"option/view", 
+						"users/edit-user",  
 						"reports/generate",
 						"reports/generate_pdf",
 						"error/404"
@@ -67,7 +72,7 @@
 						"ganttChart/list",
 						"accomplishment/daily",
 						"accomplishment/edit",
-						"ticketing/viewContent",
+						"ticketing/viewTicket",
 						"notes/nlist",  
 						"reports/generate",
 						"reports/generate_pdf",

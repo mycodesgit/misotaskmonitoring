@@ -1,6 +1,47 @@
 <?php if( ! defined( 'ACCESS' ) ) die( 'DIRECT ACCESS NOT ALLOWED' ); ?>
 
 <?= element( 'headerForm' ); ?>
+<style>
+    .ticket-number {
+      display: inline-block;
+      padding: 2px 8px; 
+      background: linear-gradient(135deg, #00CC66, #33CC33); 
+      color: #fff; 
+      font-weight: bold;
+      border: 2px solid #FFC107; 
+      border-radius: 10pt; 
+      text-transform: uppercase;
+      font-size: 12px; 
+      letter-spacing: 2px;
+      position: relative;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15); 
+    }
+
+    .ticket-number::before {
+      content: "";
+      position: absolute;
+      top: -4px; 
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(135deg, #00CC66, #33CC33); 
+      border-top-left-radius: 10px; 
+      border-top-right-radius: 10px; 
+    }
+
+    .ticket-number::after {
+      content: "";
+      position: absolute;
+      bottom: -4px; 
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(135deg, #00CC66, #33CC33); 
+      border-bottom-left-radius: 10px; 
+      border-bottom-right-radius: 10px; 
+    }
+
+</style>
 
 <body class="hold-transition layout-top-nav layout-navbar-fixed text-sm">
 
@@ -52,7 +93,7 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-7">
+                    <div class="col-lg-6">
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">Task Monitoring</h3>
@@ -62,7 +103,6 @@
                                     <thead>
                                         <tr>
                                             <th style="width: 1%">#</th>
-                                            <th>Project Name</th>
                                             <th>Team Members</th>
                                             <th>Project Progress</th>
                                             <th style="width: 8%" class="text-center">Status</th>
@@ -92,6 +132,15 @@
                                                 <tr id="task-<?php echo $data->id; ?>">
                                                     <td><?php echo $cnt++; ?></td>
                                                     <td>
+                                                        <ul class="list-inline">
+                                                            <?php foreach ($imageUrls as $imageUrl) { ?>
+                                                                <li class="list-inline-item">
+                                                                    <img alt="Avatar" class="table-avatar" src="<?php echo $imageUrl; ?>">
+                                                                </li>
+                                                            <?php } ?>
+                                                        </ul>
+                                                    </td>
+                                                    <td class="project_progress">
                                                         <a>
                                                         <?php echo $data->task; ?>
                                                         </a>
@@ -108,17 +157,6 @@
                                                                 echo $formattedDate = $dateTime->format('F j, Y');
                                                             ?>
                                                         </small>
-                                                    </td>
-                                                    <td>
-                                                        <ul class="list-inline">
-                                                            <?php foreach ($imageUrls as $imageUrl) { ?>
-                                                                <li class="list-inline-item">
-                                                                    <img alt="Avatar" class="table-avatar" src="<?php echo $imageUrl; ?>">
-                                                                </li>
-                                                            <?php } ?>
-                                                        </ul>
-                                                    </td>
-                                                    <td class="project_progress">
                                                         <div id="progress-container" class="progress progress-sm">
                                                             <div id="progress-bar" class="progress-bar bg-green" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $data->percent_completed; ?>%">
                                                             </div>
@@ -173,7 +211,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-5">
+                    <div class="col-lg-6">
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">Ticketing</h3>
@@ -185,6 +223,7 @@
                                             <th>Ticket</th>
                                             <th>Category</th>
                                             <th>Office</th>
+                                            <th>Concern</th>
                                             <th>Urgency</th>
                                             <th>Status</th>
                                         </tr>
@@ -250,6 +289,8 @@
 <script src="assets/adminLTE-3/dist/js/adminlte.min.js"></script>
 
 <script src="assets/ajax/monitoringTicketsAjax.js"></script>
+
+<script src="assets/adminLTE-3/dist/js/dark-mode.js"></script>
 
 
 <script>

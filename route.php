@@ -29,11 +29,18 @@ $daily_taskEdit_link = (strpos($current_url, $daily_taskEdit_url) !== false) ? $
 
 /* Ticketing */
 $ticket_url = '/ticketing/viewContent';
-$ticket_link = (strpos($current_url, $ticket_url) !== false) ? $current_url : '../ticketing/viewContent';
+$ticket_link = (strpos($current_url, $ticket_url) !== false) ? $current_url : '../ticketing/viewContent?id=';
+
+$ticketing_url = '/ticketing/viewTicket';
+$ticketing_link = (strpos($current_url, $ticketing_url) !== false) ? $current_url : '../ticketing/viewTicket';
 
 /* Notes */
 $notes_url = '/notes/nlist';
 $notes_link = (strpos($current_url, $notes_url) !== false) ? $current_url : '../notes/nlist';
+
+/* Notes */
+$todo_url = '/calendar/view';
+$todo_link = (strpos($current_url, $todo_url) !== false) ? $current_url : '../calendar/viewEvent';
 
 /* Reports */
 $reports_url = '/reports/generate';
