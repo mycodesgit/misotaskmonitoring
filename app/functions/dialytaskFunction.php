@@ -58,9 +58,9 @@ function updateDailyTasks($task, $no_accom, $token) {
     
     global $DB;
 
-    $sql_update = "UPDATE accomplishment SET task=?, no_accom=?, WHERE token=?";
+    $sql_update = "UPDATE accomplishment SET task=?, no_accom=? WHERE token=?";
     $stmt_update = $DB->prepare($sql_update);
-    $stmt_update->bind_param("sssssss", $task, $no_accom, $token);
+    $stmt_update->bind_param("sss", $task, $no_accom, $token);
 
     if ($stmt_update->execute()) {
         set_message("<i class='fa fa-check'></i> Daily Task Updated Successfully", 'success');

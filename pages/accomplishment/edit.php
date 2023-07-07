@@ -43,7 +43,7 @@
                                 <?= show_message(); ?>
                                 <div class="card-body">
                                     <form method="post" id="addDailyTask">
-                                        <input type="hidden" name="action" value="update_dailyTask"> 
+                                        <input type="hidden" name="action" value="dailyTaskAction"> 
 
                                         <?= csrf_token(); ?>
 

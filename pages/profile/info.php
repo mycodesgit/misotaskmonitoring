@@ -131,8 +131,10 @@
                                                 <label for="exampleInputName">Usertype:</label>
                                                 <select name="usertype" class="form-control">
                                                     <option value=""> --- Select --- </option>
+                                                    <?php if($_SESSION['usertype'] == 'Administrator') {?>
                                                     <option value="Administrator" <?php echo ($emp->usertype == 'Administrator') ? 'selected="selected"' : '' ?>>Administrator</option>
                                                     <option value="Supply Officer" <?php echo ($emp->usertype == 'Supply Officer') ? 'selected="selected"' : '' ?>>Supply Officer</option>
+                                                    <?php }?>
                                                     <option value="Staff" <?php echo ($emp->usertype == 'Staff') ? 'selected="selected"' : '' ?>>Staff</option>
                                                 </select>
                                             </div>
@@ -170,5 +172,4 @@
     },);
 </script>
 
-<?php include 'pages/script/user.php';?>
 <?= element( 'footer' ); ?>

@@ -15,6 +15,10 @@ class ComposerStaticInitb479262605e203fb9e0350de60f81754
         array (
             'setasign\\Fpdi\\' => 14,
         ),
+        'W' => 
+        array (
+            'Whoops\\' => 7,
+        ),
         'P' => 
         array (
             'Psr\\Log\\' => 8,
@@ -35,6 +39,10 @@ class ComposerStaticInitb479262605e203fb9e0350de60f81754
         'setasign\\Fpdi\\' => 
         array (
             0 => __DIR__ . '/..' . '/setasign/fpdi/src',
+        ),
+        'Whoops\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/filp/whoops/src/Whoops',
         ),
         'Psr\\Log\\' => 
         array (

@@ -4,6 +4,7 @@
     "type": "project",
     "license": "proprietary",
     "require": {
-        "mpdf/mpdf": "^8.1"
+        "mpdf/mpdf": "^8.1",
+        "filp/whoops": "^2.12"
     }
 }
