@@ -12,7 +12,9 @@
             
             <div class="modal-body">
                <form class="form-horizontal" method="post" id="addGantt" enctype="multipart/form-data">  
-                    <input type="hidden" name="action" value="add_gantt"> 
+                    <input type="hidden" name="action" value="ganttAction"> 
+
+                    <?= csrf_token(); ?>
 
                     <div class="form-group">
                         <div class="form-row">

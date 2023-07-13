@@ -5,6 +5,7 @@
     "license": "proprietary",
     "require": {
         "mpdf/mpdf": "^8.1",
-        "filp/whoops": "^2.12"
+        "filp/whoops": "^2.12",
+        "symfony/console": "^5.0"
     }
 }

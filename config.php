@@ -9,7 +9,9 @@ date_default_timezone_set("Asia/Manila");
 // define( 'DBUSER', 'root' );
 // define( 'DBPASS', 'r@@t' );
 // define( 'DBNAME', 'db_cpsumiso-monitoring' ); 
+define( 'DEBUGGER', true );
 
 // define( 'SITE_TITLE', 'MIS | eCalendar' );
+
 
 

@@ -1,10 +1,4 @@
 <?php 
-	require_once __DIR__ . '/vendor/autoload.php';
-
-	// Enable Whoops error handler
-	$whoops = new Whoops\Run;
-	$whoops->pushHandler(new Whoops\Handler\PrettyPageHandler);
-	$whoops->register();
 	
 	error_reporting(E_ALL);
 	session_start();	
@@ -17,11 +11,11 @@
 
 	require 'config.php';	
 	require 'init.php';
-	require 'functions.php';
-	require 'custom_functions.php';	
-	require 'authentication.php';	
-	require 'actions.php';			
-	require 'page.php';
+	require 'config/functions.php';
+	require 'config/custom_functions.php';	
+	require 'config/authentication.php';	
+	require 'config/actions.php';			
+	require 'config/page.php';
 
 
 	if( $DB )

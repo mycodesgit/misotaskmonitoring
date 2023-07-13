@@ -31,29 +31,59 @@
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="card-title">
-                                        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#modal-event" style="background-color: #3c8dbc;">
-                                            <i class="fas fa-plus"></i> Add New Event/Activity
-                                        </button>
+                                        Add New Event/Activity
                                     </h3>
                                 </div>
-                                <!-- /.card-header -->`
                                 
                                 <div class="card-body">
-                                    <div id="external-events">
-                                        <div class="external-event bg-success">Lunch</div>
-                                        <div class="external-event bg-warning">Go home</div>
-                                        <div class="external-event bg-info">Do homework</div>
-                                        <div class="external-event bg-primary">Work on UI design</div>
-                                        <div class="external-event bg-danger">Sleep tight</div>
-                                        <div class="checkbox">
-                                            <label for="drop-remove">
-                                                <input type="checkbox" id="drop-remove">
-                                                    remove after drop
-                                            </label>
+                                    <form class="form-horizontal" method="post" action="" enctype="multipart/form-data">
+                                        <input type="hidden" name="action" value="calendarEvent">
+
+                                        <?= csrf_token(); ?>
+                                        <?= show_message(); ?>
+                                        
+                                        <div class="form-group">
+                                            <div class="form-row">  
+                                                <div class="col-sm-12">
+                                                    <label for="inputName" class="">Title/Topic:</label>
+                                                    <textarea name="title" class="form-control" rows="4" required autofocus></textarea>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
+
+                                        <div class="form-group">
+                                            <div class="form-row">  
+                                                <div class="col-sm-12">
+                                                    <label for="inputName" class="">Date Start:</label>
+                                                    <input type="date" name="start_date" class="form-control" required>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="form-row">
+                                                <div class="col-sm-12">
+                                                    <label for="inputName" class="">Date End:</label>
+                                                    <input type="date" name="end_date" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="form-row">
+                                                <div class="col-sm-12">
+                                                    <button type="submit" name="btn-submit" class="btn btn-primary">
+                                                        <i class="fas fa-save"></i> SAVE
+                                                    </button>
+
+                                                    <button type="reset" class="btn btn-info">
+                                                        <i class="fas fa-refresh"></i> Reset
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
-                                <!-- /.card-body -->
                             </div>
                         </div>
 

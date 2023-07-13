@@ -173,5 +173,4 @@
     },);
 </script>
 
-<?php include 'pages/script/user.php';?>
 <?= element( 'footer' ); ?>
