@@ -1,6 +1,6 @@
 <?php
 
-include("../init.php");
+include("../../init.php");
 
 if (isset($_POST['id']) && isset($_POST['progress'])) {
     $id = $_POST['id'];

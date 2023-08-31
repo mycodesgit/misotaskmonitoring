@@ -1,5 +1,5 @@
 <div class="modal fade" id="modal-user">
-    <div class="modal-dialog modal-md">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">
@@ -18,25 +18,17 @@
 
                     <div class="form-group">
                         <div class="form-row">
-                            <div class="col-md-12">
+                            <div class="col-md-4">
                                 <label>First Name:</label>
                                 <input type="text" name="fname" oninput="this.value = this.value.toUpperCase()" placeholder="Enter First Name" class="form-control">
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="form-group">
-                        <div class="form-row">
-                            <div class="col-md-12">
+                            <div class="col-md-4">
                                 <label>Middle Name:</label>
                                 <input type="text" name="mname" oninput="this.value = this.value.toUpperCase()" placeholder="Enter Middle Name" class="form-control">
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="form-group">
-                        <div class="form-row">
-                            <div class="col-md-12">
+                            <div class="col-md-4">
                                 <label>Last Name:</label>
                                 <input type="text" name="lname" oninput="this.value = this.value.toUpperCase()" placeholder="Enter Last Name" class="form-control">
                             </div>
@@ -45,26 +37,17 @@
 
                     <div class="form-group">
                         <div class="form-row">
-                            <div class="col-md-12">
+                            <div class="col-md-4">
                                 <label>Username:</label>
                                 <input type="text" id="username" name="username" placeholder="Enter Username" class="form-control">
-                                <!-- <span id="usernameStatus" style="font-size: 9pt"></span> -->
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="form-group">
-                        <div class="form-row">
-                            <div class="col-md-12">
+                            <div class="col-md-4">
                                 <label>Password:</label>
                                 <input type="password" name="password" placeholder="Enter Password" class="form-control">
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="form-group">
-                        <div class="form-row">
-                            <div class="col-md-12">
+                            <div class="col-md-4">
                                 <label>Usertype:</label>
                                 <select name="usertype" class="form-control">
                                     <option value=""> --- Select ---</option>
@@ -78,33 +61,19 @@
                     </div>
 
                     <div class="form-group">
-                    <label>Select Office:</label>
-                        <select name="off_id" class="form-control select2" style="width: 100%;">
-                            <option value="">-- Select --</option>
-                            <?php  
-                            $query = $DB->prepare("SELECT * FROM offices");
-                            $query->execute();
-                            $result = $query->get_result();
-                            if ($result->num_rows > 0) {
-                                $cnt = 1;
-                                while ($office = $result->fetch_object()) { 
-                                    ?>
-                                    <option value="<?php echo $office->id ?>"><?php echo $office->office_abbr . ' ' . $office->office_name; ?></option>
-                                    <?php
-                                }
-                            }
-                            ?>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
                         <div class="form-row">
                             <div class="col-md-12">
-                                <label>Gender:</label>
-                                <select name="emp_gender" class="form-control">
-                                    <option value=""> --- Select ---</option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
+                                <label>Select Office:</label>
+                                <select name="off_id" class="form-control select2bs4" style="width: 100%;">
+                                    <option value="">-- Select --</option>
+                                    <?php
+                                        $offices = viewOffices();
+                                        foreach ($offices as $cnt => $data) { ?>
+                                            <option value="<?php echo $data->id ?>">
+                                                <?php echo $data->office_abbr . ' ' . $data->office_name; ?>   
+                                            </option>
+                                        <?php }
+                                    ?>
                                 </select>
                             </div>
                         </div>
@@ -112,9 +81,38 @@
 
                     <div class="form-group">
                         <div class="form-row">
-                            <div class="col-md-12">
+                            <div class="col-md-4">
+                                <label>Gender:</label>
+                                <select name="emp_gender" class="form-control">
+                                    <option value=""> --- Select ---</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label>Role:</label>
+                                <select name="usertype" class="form-control">
+                                    <option value=""> --- Select ---</option>
+                                    <option value="Administrator">Administrator</option>
+                                    <option value="MIS Officer">MIS Officer</option>
+                                    <option value="Staff">Staff</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-4">
                                 <label>Profile:</label>
-                                <input type="file" name="profile_image" id="profile_image" class="form-control">
+                                <input type="file" name="profile_image" onChange="displayImage(this)" id="profile_image" class="form-control" >
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4" align="center">
+                                <img src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/assets/adminLTE-3/img/user.png" onClick="triggerClick()" id="profileDisplay" class="profile-usergal-img img-responsive img-circle" width="80px">
                             </div>
                         </div>
                     </div>

@@ -73,7 +73,16 @@
                                             <div class="form-row">
                                                 <div class="col-md-12">
                                                     <label>No. of Accommodation:</label>
-                                                    <textarea class="form-control" rows="4" id="no_accom" name="no_accom"><?php echo $item->no_accom?></textarea>
+                                                    <textarea id="" class="form-control" rows="4" id="no_accom" name="no_accom"><?php echo $item->no_accom?></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="form-row">
+                                                <div class="col-md-12">
+                                                    <label>Date:</label>
+                                                    <input type="date" id="" value="<?php echo $item->created_at; ?>" class="form-control" rows="4" id="created_at" name="created_at">
                                                 </div>
                                             </div>
                                         </div>

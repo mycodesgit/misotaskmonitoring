@@ -66,7 +66,7 @@
 
                 <?= show_message();?>
 
-                <form method="post" id="quickForm">
+                <form method="post" id="login">
                     <input type="hidden" name="action" value="validate_user">
 
                     <?= csrf(); ?>
@@ -117,52 +117,8 @@
     <script src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/assets/adminLTE-3/plugins/jquery-validation/jquery.validate.min.js"></script>
     <script src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/assets/adminLTE-3/plugins/jquery-validation/additional-methods.min.js"></script>
 
-    <script>
-        function myFunction() {
-            var x = document.getElementById("myInput");
-            if (x.type === "password") {
-                x.type = "text";
-            } else {
-                x.type = "password";
-            }
-        }
-    </script>
-
-    <script>
-        $(function () {
-            $('#quickForm').validate({
-                rules: {
-                    username: {
-                        required: true,
-                        minlength: 5
-                    },
-                    password: {
-                        required: true,
-                        minlength: 5
-                    },
-                },
-                messages: {
-                    username: {
-                        required: "Please enter a username",
-                        username: "Please enter a valid username address",
-                        minlength: "Your username must be at least 5 characters long"
-                    },
-                    password: {
-                        required: "Please provide a password",
-                        minlength: "Your password must be at least 5 characters long"
-                    },
-                },
-                errorElement: 'span',
-                errorPlacement: function (error, element) {
-                    error.addClass('invalid-feedback');
-                    element.closest('.input-group').append(error);
-                },
-                highlight: function (element, errorClass, validClass) {
-                    $(element).addClass('is-invalid');
-                },
-            });
-        });
-    </script>
+    <script src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/assets/js/loginValidation.js"></script>
+    
 </body>
 </html>
 

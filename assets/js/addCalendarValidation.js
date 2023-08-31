@@ -1,21 +1,27 @@
 
 $(function () {
-    $('#addDailyTask').validate({
+    $('#addCalendarEvent').validate({
         rules: {
-            task: {
+            title: {
                 required: true
             },
-            no_accom: {
+            start_date: {
+                required: true
+            },
+            end_date: {
                 required: true
             } 
         },
         messages: {
-            task: {
-                required: "Please enter a your Task"
+            title: {
+                required: "Please enter a your Event Title"
             },
-            no_accom: {
-                required: "Please enter number of accommodation of task"
+            start_date: {
+                required: "Please select Date to start"
             },
+            end_date: {
+                required: "Please select Date to start"
+            }
         },
         errorElement: 'span',
         errorPlacement: function (error, element) {

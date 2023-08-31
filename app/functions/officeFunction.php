@@ -15,7 +15,7 @@ if (!defined('ACCESS')) {
     die('DIRECT ACCESS NOT ALLOWED');
 }
 
-function getOffices() {
+function viewOffices() {
     global $DB;
 
     $query = $DB->prepare("SELECT * FROM offices");
@@ -23,11 +23,11 @@ function getOffices() {
     $result = $query->get_result();
 
     if ($result->num_rows > 0) {
-        $offices = array();
-        while ($office = $result->fetch_object()) {
-            $offices[] = $office;
+        $items = array();
+        while ($item = $result->fetch_object()) {
+            $items[] = $item;
         }
-        return $offices;
+        return $items;
     } else {
         return array();
     }

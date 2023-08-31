@@ -4,7 +4,6 @@
 
 <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
             <section class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
@@ -18,15 +17,13 @@
                             </ol>
                         </div>
                     </div>
-                </div><!-- /.container-fluid -->
+                </div>
             </section>
             
 
             <!-- Main content -->
             <section class="content">
-                <!-- Default box -->
                 <div class="container-fluid">
-                <!-- Small boxes (Stat box) -->
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
@@ -37,11 +34,10 @@
                                         </button>
                                     </h3>
                                 </div>
-                                <!-- /.card-header -->
+
                                 <?= show_message(); ?>
-                                <!-- Modal -->
-                                <?php include 'pages/modal/add-user-modal.php';?>
-                                <!-- /End Modal -->
+
+                                <?php include 'pages/users/modal.php';?>
                                 
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -66,7 +62,7 @@
                                                     foreach ($users as $cnt => $user) {
                                                         $imageUrl = $user->profile_image ? dirname($_SERVER['PHP_SELF']) . "/assets/img/profile/" . $user->profile_image : dirname($_SERVER['PHP_SELF']) . "/assets/adminLTE-3/img/user.png";
                                                         ?>
-                                                        <tr id="user-<?php echo $user->userid; ?>">
+                                                        <tr id="view-<?php echo $user->id; ?>">
                                                             <td><?php echo $cnt + 1; ?></td>
                                                             <th>
                                                                 <img alt="Avatar" class="img-circle" src="<?php echo $imageUrl; ?>" width="30px">
@@ -78,10 +74,11 @@
                                                             <td><?php echo $user->office_abbr; ?></td>
                                                             <td><?php echo $user->usertype; ?></td>
                                                             <td>
-                                                                <a href="<?= $userEditLink ?>?token=<?php echo $user->token; ?>" class="btn btn-info btn-xs" title="Edit">
+                                                                <a href="<?= $userEditLink ?>?t0K3n=<?php echo $user->token; ?>" class="btn btn-info btn-xs" title="Edit">
                                                                     <i class="fas fa-info-circle"></i>
                                                                 </a>
-                                                                <a id="<?php echo $user->userid; ?>" onclick="deleteItem(this.id)" class="btn btn-danger btn-xs" title="Delete">
+
+                                                                <a id="<?php echo $user->id?>" onclick="deleteItem(this.id)" class="btn btn-danger btn-xs" title="Delete">
                                                                     <i class="fas fa-trash"></i>
                                                                 </a>
                                                                 <button data-id="<?php echo $user->id; ?>" class="btn btn-success btn-xs" value="0" onclick="updateUserStat(this)">
@@ -96,14 +93,11 @@
                                         </table>
                                     </div>
                                 </div>
-                                <!-- /.card-body -->
                             </div>
-                            <!-- /.card -->
                         </div>
                     </div>
                 </div>
             </section>
-            <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
 
@@ -117,34 +111,33 @@
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
-            icon: 'warning',
+            icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                
-                $.ajax({
-                    type: "GET",
-                    url: "../actions/usersAction.php",
-                    data: { id:id, btnDeleteUser:true},
-                    success: function(response) {
-                        Swal.fire({
-                            title: 'Deleted!',
-                            text: 'Your file has been deleted.',
-                            icon: 'success',
-                            showConfirmButton: false,
-                            timer: 2000 
-                        }).then(function() {
-                            $('#user-' + id).fadeOut(1000, function() {
-                                $(this).remove(); 
+            confirmButtonColor: "#3085d60",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }). then((result)=> {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "GET",
+                        url: "../app/actions/usersAction.php",
+                        data: { id:id, btn_delete:true},
+                        success: function (response) {
+                            Swal.fire(
+                                'Delete!',
+                                'You file has been deleted.',
+                                'success'
+                            ).then(() => {
+                                var row = $("#view-" + id);
+                                row.fadeOut(1000, function() {
+                                    row.remove();
+                                });
                             });
-                        });
-                    }
-                });
+                        }
+                    });
+                }
             }
-        });
+        );
     }
 </script>
 
@@ -193,6 +186,41 @@
                 });
             }
         });
+    }
+</script>
+
+<script type="text/javascript">
+    $(document).on('click','.status_checks',function(){
+        var status = ($(this).hasClass("btn-success")) ? '0' : '1';
+        var msg = (status=='0')? 'Disapprove' : 'Approve';
+        if(confirm("Are you sure to "+ msg)){
+            var current_element = $(this);
+            url = "actions/activate_deactivate.php";
+            $.ajax({
+                type:"POST",
+                url: url,
+                data: {user_id:$(current_element).attr('data'),status:status},
+                success: function(data)
+                {   
+                    location.reload();
+                }
+            });
+        }      
+    });
+</script>
+
+<script type="text/javascript">
+    function triggerClick(e) {
+      document.querySelector('#profile_image').click();
+    }
+    function displayImage(e) {
+      if (e.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e){
+          document.querySelector('#profileDisplay').setAttribute('src', e.target.result);
+        }
+        reader.readAsDataURL(e.files[0]);
+      }
     }
 </script>
 

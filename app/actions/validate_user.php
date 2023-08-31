@@ -24,6 +24,8 @@
                 $_SESSION[ AUTH_NAME ] = $user->username;
                 $_SESSION[ AUTH_TYPE ] = $user->usertype;
                 $_SESSION[ AUTH_TOKEN ] = $user->token;
+                $_SESSION[ AUTH_OFF ] = $user->off_id;
+                session_regenerate_id(true);
                 set_message( "Welcome back {$user->fname}!", 'success' );
                 redirect();
             } else {        

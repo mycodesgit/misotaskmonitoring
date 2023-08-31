@@ -19,5 +19,8 @@ $(function () {
         highlight: function (element, errorClass, validClass) {
             $(element).addClass('is-invalid');
         },
+        unhighlight: function (element, errorClass, validClass) {
+            $(element).removeClass('is-invalid');
+        },
     });
 });

@@ -71,6 +71,19 @@ function enableErrorHandling()
 }
 enableErrorHandling();
 
+function token_hash($length = 64) {
+    $randomBytes = random_bytes($length);
+    $tokenHash = password_hash($randomBytes, PASSWORD_BCRYPT);
+    return $tokenHash;
+}
+
+function checkLoggedIn() {
+    if (isset($_SESSION[AUTH_ID]) && !empty($_SESSION[AUTH_ID])) {
+        redirect();
+    }
+}
+
+
 
 
 

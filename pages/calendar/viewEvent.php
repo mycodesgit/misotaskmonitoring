@@ -4,7 +4,6 @@
 
 <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
             <section class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
@@ -21,10 +20,8 @@
                 </div>
             </section>
             
-
             <!-- Main content -->
             <section class="content">
-                <!-- Default box -->
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-lg-3">
@@ -36,15 +33,16 @@
                                 </div>
                                 
                                 <div class="card-body">
-                                    <form class="form-horizontal" method="post" action="" enctype="multipart/form-data">
-                                        <input type="hidden" name="action" value="calendarEvent">
+                                    <form class="form-horizontal" method="post" id="addCalendarEvent" enctype="multipart/form-data">
+                                        <input type="hidden" name="action" value="calendarEventAction">
+                                        <input type="hidden" name="user_id" value="<?php echo $_SESSION[AUTH_ID]?>">
 
                                         <?= csrf_token(); ?>
                                         <?= show_message(); ?>
                                         
                                         <div class="form-group">
                                             <div class="form-row">  
-                                                <div class="col-sm-12">
+                                                <div class="col-md-12">
                                                     <label for="inputName" class="">Title/Topic:</label>
                                                     <textarea name="title" class="form-control" rows="4" required autofocus></textarea>
                                                 </div>
@@ -53,7 +51,7 @@
 
                                         <div class="form-group">
                                             <div class="form-row">  
-                                                <div class="col-sm-12">
+                                                <div class="col-md-12">
                                                     <label for="inputName" class="">Date Start:</label>
                                                     <input type="date" name="start_date" class="form-control" required>
                                                 </div>
@@ -62,7 +60,7 @@
 
                                         <div class="form-group">
                                             <div class="form-row">
-                                                <div class="col-sm-12">
+                                                <div class="col-md-12">
                                                     <label for="inputName" class="">Date End:</label>
                                                     <input type="date" name="end_date" class="form-control">
                                                 </div>
@@ -102,11 +100,10 @@
         
 <?php include './pages/script/load.php';?>
 <?php include './pages/modal/view-event-modal.php';?>
-<?php include './pages/calendar/modal.php';?>
 
 <?= element( 'footer' ); ?>
 
-
+<script src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/assets/js/addCalendarValidation.js"></script>
 
 <script type="text/javascript">
     setTimeout(function () {

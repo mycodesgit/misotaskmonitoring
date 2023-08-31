@@ -16,32 +16,18 @@ if (!defined('ACCESS')) {
 }
  
 function viewcalendarEvent() {
-    global $DB;
-
-    $query = $DB->prepare("SELECT * FROM table_name");
-    $query->execute();
-    $result = $query->get_result();
-
-    if ($result->num_rows > 0) {
-        $items = array();
-        while ($item = $result->fetch_object()) {
-            $items[] = $item;
-        }
-        return $items;
-    } else {
-        return array();
-    }
+    
 }
 
-function createcalendarEvent($title, $start_date, $end_date) {
+function createcalendarEvent($title, $user_id, $start_date, $end_date) {
     global $DB;
 
     $token = bin2hex(random_bytes(16));
 
-    $sql_insert = "INSERT INTO events SET title=?, start_date=?, end_date=?, token=? ";
+    $sql_insert = "INSERT INTO events SET title=?, user_id=?, start_date=?, end_date=?, token=? ";
 
     $stmt_insert = $DB->prepare($sql_insert);
-    $stmt_insert->bind_param("ssss", $title, $start_date, $end_date, $token);
+    $stmt_insert->bind_param("sssss", $title, $user_id, $start_date, $end_date, $token);
 
     if ($stmt_insert->execute()) {
         set_message("Added Successfully.", 'success');
@@ -52,12 +38,12 @@ function createcalendarEvent($title, $start_date, $end_date) {
     }
 }
 
-function updatecalendarEvent($item, $token) {
+function updatecalendarEvent($title, $start_date, $end_date) {
     global $DB;
 
-    $sql_update = "UPDATE table_name SET item=? WHERE token=?";
+    $sql_update = "UPDATE events SET title=?, start_date=?, end_date=?, WHERE id=?";
     $stmt_update = $DB->prepare($sql_update);
-    $stmt_update->bind_param("ss", $item, $token);
+    $stmt_update->bind_param("ssss", $title, $start_date, $end_date, $id,);
 
     if ($stmt_update->execute()) {
         set_message("<i class='fa fa-check'></i> Updated Successfully", 'success');

@@ -15,13 +15,13 @@ if (!defined('ACCESS')) {
     die('DIRECT ACCESS NOT ALLOWED');
 }
 
-function getUserLogData($id) {
+function getUserLogData($token) {
     global $DB;
 
-    $id = $_SESSION[AUTH_ID];
+    $token = $_SESSION[AUTH_TOKEN];
 
-    $userQuery = $DB->prepare("SELECT * FROM users WHERE id = ?");
-    $userQuery->bind_param("i", $id);
+    $userQuery = $DB->prepare("SELECT * FROM users WHERE token = ?");
+    $userQuery->bind_param("s", $token);
     $userQuery->execute();
     $userResult = $userQuery->get_result();
 
@@ -48,10 +48,7 @@ function getUserLogData($id) {
 function userRead() {
     global $DB;
 
-    $query = $DB->prepare("SELECT users.*, users.id AS userid, offices.office_name, offices.office_abbr
-                      FROM users 
-                      INNER JOIN offices ON users.off_id = offices.id");
-
+    $query = $DB->prepare("SELECT users.*, users.id AS userid, offices.office_name, offices.office_abbr FROM users INNER JOIN offices ON users.off_id = offices.id");
     $query->execute();
     $result = $query->get_result();
 
@@ -66,8 +63,8 @@ function userRead() {
 function getUserByToken($token) {
     global $DB;
 
-    $token = $_GET[AUTH_TOKEN];
-    $stmt = $DB->prepare("SELECT * FROM users INNER JOIN offices ON users.off_id = offices.id WHERE token = ?");
+    $token = $_GET['t0K3n'];
+    $stmt = $DB->prepare("SELECT * FROM users INNER JOIN offices ON users.off_id = offices.id WHERE users.token = ?");
     $stmt->bind_param("s", $token);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -77,10 +74,10 @@ function getUserByToken($token) {
 }
 
 
-function userCreate($fname, $mname, $lname, $username, $off_id, $password, $emp_gender, $usertype) {
+function userCreate($fname, $mname, $lname, $username, $off_id, $password, $photoFile, $emp_gender, $usertype) {
     global $DB;
 
-    $token = bin2hex(random_bytes(16));
+    $token = token_hash();
 
     $sql_check = "SELECT COUNT(*) AS count FROM users WHERE username = ? OR password = ?";
     $stmt_check = $DB->prepare($sql_check);
@@ -90,20 +87,38 @@ function userCreate($fname, $mname, $lname, $username, $off_id, $password, $emp_
     $row_count = $result_check->fetch_assoc()['count'];
 
     if ($row_count > 0) {
-        set_message("<i class='fa fa-times'></i> Username or Password Already Exists", 'danger');
+        set_message("<i class='fa fa-times'></i> Username and Password Already Exists", 'danger');
         return false;
     }
 
-    $sql_insert = "INSERT INTO users SET fname=?, mname=?, lname=?, username=?, off_id=?, password=?, emp_gender=?, usertype=?, token=?";
-    $stmt_insert = $DB->prepare($sql_insert);
-    $stmt_insert->bind_param("sssssssss", $fname, $mname, $lname, $username, $off_id, $password, $emp_gender, $usertype, $token);
-
-    if ($stmt_insert->execute()) {
-        set_message("<i class='fa fa-check'></i> User Added Successfully", 'success');
-        return true;
-    } else {
-        set_message("<i class='fa fa-times'></i> User Failed to Add" . $DB->error, 'danger');
+    $photoFile = $_FILES["profile_image"]["name"];
+    $target_dir = "assets/img/profile/";
+    $target_file = $target_dir . basename($photoFile);
+    if ($_FILES['profile_image']['size'] > 200000000) {
+        set_message("Image size should not be greater than 200Kb", 'danger');
         return false;
+    }
+    if (file_exists($target_file)) {
+        set_message("File already exists", 'danger');
+        return false;
+    }
+    if (empty($error)) {
+        if (move_uploaded_file($_FILES["profile_image"]["tmp_name"], $target_file)) {
+            $sql_insert = "INSERT INTO users SET fname=?, mname=?, lname=?, username=?, off_id=?, password=?, profile_image=?, emp_gender=?, usertype=?, token=?";
+            $stmt_insert = $DB->prepare($sql_insert);
+            $stmt_insert->bind_param("ssssssssss", $fname, $mname, $lname, $username, $off_id, $password, $photoFile, $emp_gender, $usertype, $token);
+
+            if ($stmt_insert->execute()) {
+                set_message("Added Successfully.", 'success');
+                return true;
+            } else {
+                set_message("<i class='fa fa-times'></i> Failed to add" . $DB->error, 'danger');
+                return false;
+            }
+        } else {
+            set_message("There was an error uploading the file", 'danger');
+            return false;
+        }
     }
 }
 
@@ -140,7 +155,7 @@ function userUpdate($fname, $mname, $lname, $username, $emp_gender, $usertype, $
 
 function passUpdate($password, $token) {
     global $DB;
-
+    
     $sql_update = "UPDATE users SET password=? WHERE token=?";
     $stmt_update = $DB->prepare($sql_update);
     $stmt_update->bind_param("ss", $password, $token);
@@ -155,18 +170,52 @@ function passUpdate($password, $token) {
 }
 
 
-// function userDelete($token) {
-//     global $DB;
+function userUpdatePhoto($photoFile, $updated_at, $token) {
+    global $DB;
 
-//     $sql_delete = "DELETE FROM users WHERE token=?";
-//     $stmt_delete = $DB->prepare($sql_delete);
-//     $stmt_delete->bind_param("s", $token);
+    $photoFile = $_FILES["profile_image"]["name"];
+    $target_dir = "assets/img/profile/";
+    $target_file = $target_dir . basename($photoFile);
 
-//     if ($stmt_delete->execute()) {
-//         set_message("<i class='fa fa-check'></i> User Deleted Successfully", 'success');
-//         return true;
-//     } else {
-//         set_message("<i class='fa fa-times'></i> Failed to Delete User" . $DB->error, 'danger');
-//         return false;
-//     }
-// }
+    if (!empty($photoFile)) {
+        if ($_FILES['profile_image']['size'] > 200000000) {
+            set_message("PDF size should not be greater than 200Kb", 'danger');
+            return false;
+        }
+        if (file_exists($target_file)) {
+            set_message("File already exists", 'danger');
+            return false;
+        }
+        if (move_uploaded_file($_FILES["profile_image"]["tmp_name"], $target_file)) {
+            $sql_select = "SELECT profile_image FROM users WHERE token=?";
+            $stmt_select = $DB->prepare($sql_select);
+            $stmt_select->bind_param("s", $token);
+            $stmt_select->execute();
+            $stmt_select->bind_result($oldPhotoName);
+            $stmt_select->fetch();
+            $stmt_select->close();
+
+            if (!empty($oldPhotoName)) {
+                $oldFilePath = $target_dir . $oldPhotoName;
+                if (file_exists($oldFilePath)) {
+                    unlink($oldFilePath);
+                }
+            }
+        } else {
+            set_message("There was an error uploading the file", 'danger');
+            return false;
+        }
+    }
+
+    $sql_update = "UPDATE users SET profile_image=?, updated_at=? WHERE token=?";
+    $stmt_update = $DB->prepare($sql_update);
+    $stmt_update->bind_param("sss", $photoFile, $updated_at, $token);
+
+    if ($stmt_update->execute()) {
+        set_message("File Updated Successfully.", 'success');
+        return true;
+    } else {
+        set_message("<i class='fa fa-times'></i> Failed to update" . $DB->error, 'danger');
+        return false;
+    }
+}

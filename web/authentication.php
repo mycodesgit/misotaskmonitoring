@@ -30,14 +30,19 @@
 |
 | ONLY SET THESE IF YOU WANT TO ALLOW AUTHENTICATION. IF NOT THEN JUST COMMENT THEM OUT
 |	
-*/
+*/	
+
+	if( ! defined( 'ACCESS' ) ) die( 'DIRECT ACCESS NOT ALLOWED' );
+
 	define( 'AUTH_ID', 'id' );
 	define( 'AUTH_NAME', 'username' );
 	define( 'AUTH_TYPE', 'usertype' );
 	define( 'AUTH_TOKEN', 'token' );
+	define( 'AUTH_OFF', 'off_id' );
 
 	// default page to login, name of the file found in /pages
 	define( 'LOGIN_REDIRECT', 'login' ); 
+	define( 'PAGE_REDIRECT', 'home/dashboard' );
 	
     $st = $DB->prepare("SELECT * FROM users WHERE id = ?");
     $st->bind_param("s", $_SESSION[AUTH_ID]);
@@ -70,7 +75,8 @@
 						"accomplishment/daily",
 						"accomplishment/edit",
 						"ticketing/viewTicket",
-						"notes/nlist",   
+						"notes/nlist",
+						"calendar/viewEvent",   
 						"users/ulist",
 						"option/view", 
 						"users/edit-user",  
@@ -87,7 +93,8 @@
 						"accomplishment/daily",
 						"accomplishment/edit",
 						"ticketing/viewTicket",
-						"notes/nlist",  
+						"notes/nlist",
+						"calendar/viewEvent",  
 						"reports/generate",
 						"reports/generate_pdf",
 						"error/404"
@@ -103,7 +110,7 @@
 	$restricted_pages[ 'User' ][ 'default_page' ] = "home/dashboard";
 	
 	
-	$restricted_pages[ 'default' ]['access'] = [ "default", "viewMonitoring", "viewMonitoringTicketsTable", "login", "register" ];
+	$restricted_pages[ 'default' ]['access'] = [ "login", "register" ];
 	$restricted_pages[ 'default' ][ 'default_page' ] = "default"; 
 
 	has_access( true );

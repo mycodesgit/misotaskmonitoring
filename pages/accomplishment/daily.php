@@ -45,7 +45,7 @@
                                             <div class="form-row">
                                                 <div class="col-md-12">
                                                     <label>Task:</label>
-                                                    <select name="task" class="form-control select2" style="width: 100%;">
+                                                    <select name="task" class="form-control select2bs4" style="width: 100%;">
                                                         <option value="">--- Select ---</option>
                                                         <?php
                                                             $tasks = getOptionTasks();
@@ -64,10 +64,29 @@
                                             <div class="form-row">
                                                 <div class="col-md-12">
                                                     <label>No. of Accommodation:</label>
-                                                    <textarea class="form-control" rows="4" id="no_accom" name="no_accom"></textarea>
+                                                    <textarea id="" class="form-control" rows="4" id="no_accom" name="no_accom"></textarea>
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <?php if($_SESSION[AUTH_OFF] == '36') {?>
+                                        <div class="form-group">
+                                            <div class="form-row">
+                                                <div class="col-md-12">
+                                                    <button type="button" id="toggleButton" class="btn btn-outline-info btn-block">By Pass Date</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div id="lastFormSection" class="form-group" style="display: none;">
+                                            <div class="form-row">
+                                                <div class="col-md-12">
+                                                    <label>Date:</label>
+                                                    <input type="date" id="" value="<?php echo date('Y-m-d') ?>" class="form-control" rows="4" id="created_at" name="created_at">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php }?>
 
                                         <div class="form-group">
                                             <div class="form-row">
@@ -82,33 +101,6 @@
                                             </div>
                                         </div>   
                                     </form>
-                                </div>
-                            </div>
-                            <div class="card bg-gradient-default">
-                                <div class="card-header border-0">
-                                    <h3 class="card-title">
-                                    <i class="far fa-calendar-alt"></i>
-                                    Calendar
-                                    </h3>
-                                    <div class="card-tools">
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" data-offset="-52">
-                                            <i class="fas fa-bars"></i>
-                                            </button>
-                                            <div class="dropdown-menu" role="menu">
-                                                <a href="#" class="dropdown-item">Add new event</a>
-                                                <a href="#" class="dropdown-item">Clear events</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a href="#" class="dropdown-item">View calendar</a>
-                                            </div>
-                                        </div>
-                                        <button type="button" class="btn btn-default btn-sm" data-card-widget="collapse">
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="card-body pt-0">
-                                    <div id="calendar" style="width: 100%"></div>
                                 </div>
                             </div>
                         </div>
@@ -188,6 +180,7 @@
                                             <tbody>
                                                 <?php
                                                 $tasks = getDailyTasks($auth->id);
+
                                                 foreach ($tasks as $cnt => $item) {
                                                     $taskMonth = date('m', strtotime($item->created_at));
                                                     $taskYear = date('Y', strtotime($item->created_at));
@@ -222,8 +215,6 @@
             </section>
         </div>
         <!-- /.content-wrapper -->
-        
-<?php include 'pages/accomplishment/modal.php';?>
 
 <?= element( 'footer' ); ?>
 
@@ -236,6 +227,14 @@
         var year = document.getElementById("yearSelect").value;
         window.location.href = '?month=' + month + '&year=' + year;
     }
+</script>
+
+<script>
+    $(document).ready(function() {
+        $("#toggleButton").click(function() {
+            $("#lastFormSection").toggle();
+        });
+    });
 </script>
 
 
@@ -254,8 +253,8 @@
                 
                 $.ajax({
                     type: "GET",
-                    url: "../actions/dailyTaskAction.php",
-                    data: { id:id, btnDelete:true},
+                    url: "../app/actions/dailyTaskAction.php",
+                    data: { id:id, btn_delete:true},
                     success: function(response) {
                         Swal.fire({
                             title: 'Deleted!',

@@ -23,7 +23,7 @@ function show_message() {
 	}
 }
 
-function redirect( $page = "home/dashboard", $q = "" ) {
+function redirect( $page = PAGE_REDIRECT, $q = "" ) {
 	header( "Location: " . SITE_URL . "/$page" . ( !empty( $q ) ? '&' . $q : '' ) );
 	exit;
 }
@@ -216,5 +216,5 @@ function log_errors( $message ) {
 }
 
 /* ADD YOUR CUSTOM FUNCTIONS IN custom_functions.php */
-require 'route.php';
+require 'web/route.php';
 

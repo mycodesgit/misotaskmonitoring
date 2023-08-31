@@ -11,9 +11,9 @@
 |
 */
 
-if (!defined('ACCESS')) {
-    die('DIRECT ACCESS NOT ALLOWED');
-}
+// if (!defined('ACCESS')) {
+//     die('DIRECT ACCESS NOT ALLOWED');
+// }
 
 function getDailyTasks($userId) {
     global $DB;
@@ -54,13 +54,13 @@ function createDailyTasks($task, $no_accom, $user_id, $created_at) {
     }
 }
 
-function updateDailyTasks($task, $no_accom, $token) {
+function updateDailyTasks($task, $no_accom, $token, $created_at) {
     
     global $DB;
 
-    $sql_update = "UPDATE accomplishment SET task=?, no_accom=? WHERE token=?";
+    $sql_update = "UPDATE accomplishment SET task=?, no_accom=?, created_at=? WHERE token=?";
     $stmt_update = $DB->prepare($sql_update);
-    $stmt_update->bind_param("sss", $task, $no_accom, $token);
+    $stmt_update->bind_param("ssss", $task, $no_accom, $created_at, $token);
 
     if ($stmt_update->execute()) {
         set_message("<i class='fa fa-check'></i> Daily Task Updated Successfully", 'success');
@@ -71,18 +71,20 @@ function updateDailyTasks($task, $no_accom, $token) {
     }
 }
 
-// function deleteDailyTasks($id) {
-//     $DB= new mysqli('localhost','root','r@@t','db_cpsumiso-monitoring');
+function userDelete($id) {
+    global $DB;
 
-//     $sql = "DELETE FROM accomplishment WHERE id=?";
-//     $stmt = $DB->prepare($sql);
-//     $stmt->bind_param("i", $id);
-    
-//     if ($stmt->execute()) {
-//          echo "deleted";
-//     } else {
-//         echo "deleted";
-//     }
-// }
+    $sql_delete = "DELETE FROM option_task WHERE id=?";
+    $stmt_delete = $DB->prepare($sql_delete);
+    $stmt_delete->bind_param("s", $id);
+
+    if ($stmt_delete->execute()) {
+        set_message("<i class='fa fa-check'></i> User Deleted Successfully", 'success');
+        return true;
+    } else {
+        set_message("<i class='fa fa-times'></i> Failed to Delete User" . $DB->error, 'danger');
+        return false;
+    }
+}
 
 ?>

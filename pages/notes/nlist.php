@@ -155,7 +155,7 @@
 <?= element( 'footer' ); ?>
 
 
-<script src="assets/js/addNotesValidation.js"></script>
+<script src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/assets/js/addNotesValidation.js"></script>
 
 
 <script>

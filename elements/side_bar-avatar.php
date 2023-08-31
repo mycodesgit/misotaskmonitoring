@@ -1,9 +1,7 @@
 <?php if( ! defined( 'ACCESS' ) ) die( 'DIRECT ACCESS NOT ALLOWED' ); ?>
 
-<?php require 'route.php'; ?>
-
 <?php
-    $userData = getUserLogData(AUTH_ID);
+    $userData = getUserLogData(AUTH_TOKEN);
     $profileImageUrl = $userData['profileImageUrl'];
     $user = $userData['userData'];
 ?>

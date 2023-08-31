@@ -13,7 +13,7 @@
 	require 'init.php';
 	require 'config/functions.php';
 	require 'config/custom_functions.php';	
-	require 'config/authentication.php';	
+	require 'web/authentication.php';	
 	require 'config/actions.php';			
 	require 'config/page.php';
 

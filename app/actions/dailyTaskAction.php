@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $task = $_POST['task'];
         $no_accom = $_POST['no_accom'];
         $user_id = $_SESSION[AUTH_ID]; 
-        $created_at = date("Y-m-d");
+        $created_at = $_POST['created_at'];
 
         createDailyTasks($task, $no_accom, $user_id, $created_at);
     }
@@ -31,18 +31,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['btn-update'])) {
         $task = $_POST['task'];
         $no_accom = $_POST['no_accom'];
+        $created_at = $_POST['created_at'];
         $token = $_GET['token'];
 
-        updateDailyTasks($task, $no_accom, $token);
+        updateDailyTasks($task, $no_accom, $created_at, $token);
     }
 
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     
-    include("../init.php");
+    include("../../init.php");
     
-    if (isset($_GET['btnDelete'])) {
+    if (isset($_GET['btn_delete'])) {
         $id = $_GET['id'];
     
         $sql = "DELETE FROM accomplishment WHERE id=?";

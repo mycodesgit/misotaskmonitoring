@@ -63,13 +63,17 @@
 
                                         <div class="form-group">
                                             <div class="form-row">
-                                                <div class="col-md-6">
+                                                <div class="col-md-5">
                                                     <label>From:</label>
                                                     <input type="date" name="start_date" class="form-control">
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label>To:</label>
                                                     <input type="date" name="end_date" class="form-control">
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <label>&emsp;&emsp;Group:</label>
+                                                    <input type="checkbox" name="group" class="form-control">
                                                 </div>
                                             </div>
                                         </div>

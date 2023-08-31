@@ -330,7 +330,7 @@ function handleProgressBar(progressContainer, progressBar, progressHandle, progr
         
         // AJAX request to update the ganttchart table
         $.ajax({
-            url: "../actions/update_progress.php",
+            url: "../app/actions/update_progress.php",
             method: "POST",
             data: { id: rowId, progress: progress },
             success: function (response) {
@@ -381,7 +381,7 @@ $(function () {
 
         var dataId = event.target.getAttribute("data-id");
         $.ajax({
-            url: "../actions/update_stat.php",
+            url: "../app/actions/update_stat.php",
             method: "POST",
             data: { id: dataId, status: option },
                 success: function (response) {

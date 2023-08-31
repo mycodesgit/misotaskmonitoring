@@ -126,38 +126,43 @@ ob_start();
             <tr>
                 <th>No.</th>
                 <th>Task</th>
-                <th>Accommodation</th>
+                <th>Accommodation </th>
             </tr>
         </thead>
         <tbody>
-        <?php
-            if (isset($_GET['generate'])) {
-                $start_date = $_GET['start_date'];
-                $end_date = $_GET['end_date']; 
+            <?php
+                if (isset($_GET['generate'])) {
+                    $start_date = $_GET['start_date'];
+                    $end_date = $_GET['end_date']; 
+                    $group = isset($_GET['group']) ? $_GET['group'] : "off";
 
-                $query = $DB->prepare("SELECT * FROM accomplishment WHERE created_at >= ? AND created_at <= ? AND user_id = ?");
-                $query->bind_param("sss", $start_date, $end_date, $_SESSION[AUTH_ID]);
-                $query->execute();
-                $result = $query->get_result();
-
-                if ($result->num_rows > 0) {
-                    $cnt = 1;
-                    while ($item = $result->fetch_object()) { 
-                        ?>
-                        <tr>
-                            <td><?php echo $cnt ?></td>
-                            <td><?php echo $item->task ?></td>
-                            <td><?php echo str_replace('-', '<br>', $item->no_accom); ?></td>
-                        </tr>
-                        <?php
-                        $cnt++;
+                    $query = $DB->prepare("SELECT * FROM accomplishment WHERE created_at >= ? AND created_at <= ? AND user_id = ?");
+                    
+                    if ($group == "on") {
+                        $query = $DB->prepare("SELECT task, GROUP_CONCAT(no_accom SEPARATOR '<br>') as grouped_no_accom FROM accomplishment WHERE created_at >= ? AND created_at <= ? AND user_id = ? GROUP BY task");
                     }
-                } else {
-                    echo "<tr><td colspan='3'>No records found within the Date range you selected.</td></tr>";
-                }
-            }
-        ?>
 
+                    $query->bind_param("sss", $start_date, $end_date, $_SESSION[AUTH_ID]);
+                    $query->execute();
+                    $result = $query->get_result();
+
+                    if ($result->num_rows > 0) {
+                        $cnt = 1;
+                        while ($item = $result->fetch_object()) { 
+                            ?>
+                            <tr>
+                                <td><?php echo $cnt ?></td>
+                                <td><?php echo $item->task ?></td>
+                                <td><?php echo $group == "on" ? $item->grouped_no_accom : str_replace('-', '<br>', $item->no_accom); ?></td>
+                            </tr>
+                            <?php
+                            $cnt++;
+                        }
+                    } else {
+                        echo "<tr><td colspan='3'>No records found within the Date range you selected.</td></tr>";
+                    }
+                }
+            ?>
         </tbody>
     </table>
 </div>
@@ -175,7 +180,7 @@ ob_start();
 </div>
 
 <div class="supervisor_position">
-    <p>MIS Officer</p>
+    <p>Immediate Supervisor</p>
 </div>
 
 <div class="footer-logo-container">

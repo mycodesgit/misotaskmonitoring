@@ -142,6 +142,41 @@
 
 </script>
 
+<!-- <script>
+    function deleteItem11(id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "GET",
+                    url: "../../app/actions/delete_optiontask.php",
+                    data: { id },
+                    success: function(response) {
+                        Swal.fire({
+                            title: 'Deleted!',
+                            text: 'Your file has been deleted.',
+                            icon: 'success',
+                            showConfirmButton: false,
+                            timer: 2000 
+                        }).then(function() {
+                            $('#view-'+id).fadeOut(1000, function() {
+                                $(this).remove(); 
+                            });
+                        });
+                    }
+                });
+            }
+        });
+    }
+</script> -->
+
 <script>
     function deleteItem(id) {
         Swal.fire({
@@ -156,18 +191,17 @@
             if (result.isConfirmed) {
                 $.ajax({
                     type: "GET",
-                    url: "../actions/delete_optiontask.php",
-                    data: { id },
-                    success: function(response) {
-                        Swal.fire({
-                            title: 'Deleted!',
-                            text: 'Your file has been deleted.',
-                            icon: 'success',
-                            showConfirmButton: false,
-                            timer: 2000 
-                        }).then(function() {
-                            $('#view-'+id).fadeOut(1000, function() {
-                                $(this).remove(); 
+                    url: "../app/actions/dailyTaskAction.php",
+                    data: { id:id, btnDeleteUser:true},
+                    success: function (response) {
+                      Swal.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                      ).then(() => {
+                            var row = $("#view-" + id);
+                            row.fadeOut(1000, function() {
+                                row.remove();
                             });
                         });
                     }

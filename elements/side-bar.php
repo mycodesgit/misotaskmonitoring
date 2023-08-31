@@ -20,18 +20,18 @@
         </li>
 
         <li class="nav-item">
-            <a href="<?= $daily_task_link ?>" class="nav-link <?php echo basename($_SERVER['REQUEST_URI']) == 'daily' ? 'active' : ''; ?>">
+            <a href="<?= $daily_task_link ?>" class="nav-link <?php echo (strpos($_SERVER['REQUEST_URI'], 'daily') !== false || strpos($_SERVER['REQUEST_URI'], 'daily?month') !== false) ? 'active' : ''; ?>">
                 <i class="nav-icon fas fa-tasks"></i>
                 <p>Daily Task</p>
             </a>
         </li>
 
-        <li class="nav-item">
+        <!-- <li class="nav-item">
             <a href="<?= $ticketing_link ?>" class="nav-link <?php echo basename($_SERVER['REQUEST_URI']) == 'viewTicket' ? 'active' : ''; ?>">
                 <i class="nav-icon fas fa-ticket-alt"></i>
                 <p>Ticketing</p>
             </a>
-        </li>
+        </li> -->
         <?php }?>
 
         <?php if($_SESSION['usertype'] == 'User') {?>
@@ -46,12 +46,19 @@
 
         <?php if ($_SESSION['usertype'] == 'Administrator' || $_SESSION['usertype'] == 'Staff' || $_SESSION['usertype'] == 'MIS Officer') { ?>
 
-        <li class="nav-item">
+        <!-- <li class="nav-item">
             <a href="<?= $notes_link ?>" class="nav-link <?php echo basename($_SERVER['REQUEST_URI']) == 'nlist' ? 'active' : ''; ?>">
                 <i class="nav-icon fas fa-file"></i>
                 <p>Notes</p>
             </a>
         </li>
+        
+        <li class="nav-item">
+            <a href="<?= $todo_link ?>" class="nav-link <?php echo basename($_SERVER['REQUEST_URI']) == 'viewEvent' ? 'active' : ''; ?>">
+                <i class="nav-icon fas fa-calendar-alt"></i>
+                <p>Calendar</p>
+            </a>
+        </li> -->
 
         <li class="nav-header">Reports</li>
         
@@ -61,6 +68,7 @@
                 <p>Reports</p>
             </a>
         </li>
+        
         <?php }?>
 
         <?php if($_SESSION['usertype'] == 'Administrator') {?>
@@ -73,17 +81,10 @@
             </a>
         </li>
 
-        <li class="nav-item">
-            <a href="<?= $todo_link ?>" class="nav-link <?php echo basename($_SERVER['REQUEST_URI']) == 'viewEvent' ? 'active' : ''; ?>">
-                <i class="nav-icon fas fa-calendar-alt"></i>
-                <p>Calendar</p>
-            </a>
-        </li>
-
         <li class="nav-header">Users Management</li>
 
         <li class="nav-item">
-            <a href="<?= $users_link ?>" class="nav-link <?php echo basename($_SERVER['REQUEST_URI']) == 'ulist' ? 'active' : ''; ?>">
+            <a href="<?= $users_link ?>" class="nav-link <?php echo (strpos($_SERVER['REQUEST_URI'], 'ulist') !== false || strpos($_SERVER['REQUEST_URI'], 'edit') !== false) ? 'active' : ''; ?>">
                 <i class="nav-icon fas fa-users"></i>
                 <p>Users</p>
             </a>

@@ -1,5 +1,6 @@
 <?php if( ! defined( 'ACCESS' ) ) die( 'DIRECT ACCESS NOT ALLOWED' ); ?>
 <?php include 'init.php';?>
+<?php require 'web/route.php'; ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -127,7 +128,7 @@
         <!-- /.navbar -->
 
         <!-- Main Sidebar Container -->
-        <aside class="main-sidebar sidebar-dark-primary elevation-4 sidebar-no-expand" style="background-color: #222d32;">
+        <aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color: #222d32;">
             <a href="./dashboard" class="brand-link" style="background-color: #337ab7;">
                 <img src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/assets/adminLTE-3/img/mislogoNoBG.png" alt="Logo" class="brand-image img-square">
                 <span class="brand-text font-weight-light" style="color:#fff; margin-left:"></span>
@@ -268,6 +269,7 @@
     $(function () {
     //Add text editor
         $('#compose-textarea').summernote()
+        $('#summernote').summernote()
     })
 </script>
 
