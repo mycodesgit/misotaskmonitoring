@@ -2,7 +2,7 @@ Options All -Indexes
 
 RewriteEngine on
 
-RewriteBase /cpsumiso-monitoring/
+RewriteBase /mis/
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
